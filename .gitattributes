@@ -1,0 +1,41 @@
+# ==============================================================================
+# NĀḌĪ-Q — Git Attributes & Line Ending Standardization
+# ==============================================================================
+
+# Auto-detect text files and normalize line endings to LF
+* text=auto eol=lf
+
+# Explicit text files
+*.py text eol=lf diff=python
+*.md text eol=lf
+*.txt text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.sh text eol=lf
+*.csv text eol=lf
+
+# Windows scripts use CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary formats
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.pt binary
+*.pth binary
+*.ckpt binary
+*.npy binary
+*.npz binary
+*.parquet binary
+*.h5 binary
+*.hdf5 binary
+*.tar binary
+*.tar.gz binary
+*.zip binary

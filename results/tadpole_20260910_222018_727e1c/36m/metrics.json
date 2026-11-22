@@ -1,0 +1,233 @@
+{
+  "LogisticRegression": {
+    "validation": {
+      "classification": {
+        "n_samples": 4,
+        "n_positives": 1,
+        "n_negatives": 3,
+        "roc_auc": 0.6666666666666667,
+        "prc_auc": 0.5,
+        "accuracy": 0.5,
+        "balanced_accuracy": 0.3333333333333333,
+        "tn": 2,
+        "fp": 1,
+        "fn": 1,
+        "tp": 0,
+        "sensitivity": 0.0,
+        "specificity": 0.6666666666666666,
+        "ppv": 0.0,
+        "npv": 0.6666666666666666,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "calibration": {
+        "brier_score": 0.2933863345276621,
+        "ece": 0.2773735552207661
+      },
+      "auc_bootstrap_ci": {
+        "estimate": 0.6666666666666667,
+        "lower": 0.0,
+        "upper": 1.0,
+        "n_bootstrap": 1000,
+        "successful_bootstraps": 684
+      }
+    },
+    "test": {
+      "classification": {
+        "n_samples": 4,
+        "n_positives": 3,
+        "n_negatives": 1,
+        "roc_auc": 1.0,
+        "prc_auc": 1.0,
+        "accuracy": 0.25,
+        "balanced_accuracy": 0.5,
+        "tn": 1,
+        "fp": 0,
+        "fn": 3,
+        "tp": 0,
+        "sensitivity": 0.0,
+        "specificity": 1.0,
+        "ppv": NaN,
+        "npv": 0.25,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "calibration": {
+        "brier_score": 0.3662421942491742,
+        "ece": 0.5145861057180199
+      },
+      "auc_bootstrap_ci": {
+        "estimate": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "n_bootstrap": 1000,
+        "successful_bootstraps": 690
+      }
+    },
+    "training_info": {
+      "training_time": 0.0037795999087393284
+    },
+    "resource_report": {
+      "n_parameters": 14,
+      "training_time": 0.0037795999087393284,
+      "inference_time": 0.0003912998363375664,
+      "is_fitted": true
+    }
+  },
+  "HistGradientBoosting": {
+    "validation": {
+      "classification": {
+        "n_samples": 4,
+        "n_positives": 1,
+        "n_negatives": 3,
+        "roc_auc": 0.5,
+        "prc_auc": 0.25,
+        "accuracy": 0.25,
+        "balanced_accuracy": 0.5,
+        "tn": 0,
+        "fp": 3,
+        "fn": 0,
+        "tp": 1,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "ppv": 0.25,
+        "npv": NaN,
+        "f1": 0.4,
+        "precision": 0.25,
+        "recall": 1.0
+      },
+      "calibration": {
+        "brier_score": 0.25,
+        "ece": 0.25
+      },
+      "auc_bootstrap_ci": {
+        "estimate": 0.5,
+        "lower": 0.5,
+        "upper": 0.5,
+        "n_bootstrap": 1000,
+        "successful_bootstraps": 684
+      }
+    },
+    "test": {
+      "classification": {
+        "n_samples": 4,
+        "n_positives": 3,
+        "n_negatives": 1,
+        "roc_auc": 0.5,
+        "prc_auc": 0.75,
+        "accuracy": 0.75,
+        "balanced_accuracy": 0.5,
+        "tn": 0,
+        "fp": 1,
+        "fn": 0,
+        "tp": 3,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "ppv": 0.75,
+        "npv": NaN,
+        "f1": 0.8571428571428571,
+        "precision": 0.75,
+        "recall": 1.0
+      },
+      "calibration": {
+        "brier_score": 0.25,
+        "ece": 0.25
+      },
+      "auc_bootstrap_ci": {
+        "estimate": 0.5,
+        "lower": 0.5,
+        "upper": 0.5,
+        "n_bootstrap": 1000,
+        "successful_bootstraps": 690
+      }
+    },
+    "training_info": {
+      "training_time": 0.5257357000373304
+    },
+    "resource_report": {
+      "n_parameters": -1,
+      "training_time": 0.5257357000373304,
+      "inference_time": 0.0034821999724954367,
+      "is_fitted": true
+    }
+  },
+  "MLP": {
+    "validation": {
+      "classification": {
+        "n_samples": 4,
+        "n_positives": 1,
+        "n_negatives": 3,
+        "roc_auc": 0.6666666666666667,
+        "prc_auc": 0.5,
+        "accuracy": 0.5,
+        "balanced_accuracy": 0.3333333333333333,
+        "tn": 2,
+        "fp": 1,
+        "fn": 1,
+        "tp": 0,
+        "sensitivity": 0.0,
+        "specificity": 0.6666666666666666,
+        "ppv": 0.0,
+        "npv": 0.6666666666666666,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "calibration": {
+        "brier_score": 0.19708037189912792,
+        "ece": 0.19515809789299965
+      },
+      "auc_bootstrap_ci": {
+        "estimate": 0.6666666666666667,
+        "lower": 0.0,
+        "upper": 1.0,
+        "n_bootstrap": 1000,
+        "successful_bootstraps": 684
+      }
+    },
+    "test": {
+      "classification": {
+        "n_samples": 4,
+        "n_positives": 3,
+        "n_negatives": 1,
+        "roc_auc": 0.6666666666666666,
+        "prc_auc": 0.9166666666666665,
+        "accuracy": 0.25,
+        "balanced_accuracy": 0.5,
+        "tn": 1,
+        "fp": 0,
+        "fn": 3,
+        "tp": 0,
+        "sensitivity": 0.0,
+        "specificity": 1.0,
+        "ppv": NaN,
+        "npv": 0.25,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "calibration": {
+        "brier_score": 0.3209831561483696,
+        "ece": 0.39801783114671707
+      },
+      "auc_bootstrap_ci": {
+        "estimate": 0.6666666666666666,
+        "lower": 0.0,
+        "upper": 1.0,
+        "n_bootstrap": 1000,
+        "successful_bootstraps": 690
+      }
+    },
+    "training_info": {
+      "training_time": 0.020321799907833338
+    },
+    "resource_report": {
+      "n_parameters": 3009,
+      "training_time": 0.020321799907833338,
+      "inference_time": 0.0003744000568985939,
+      "is_fitted": true
+    }
+  }
+}

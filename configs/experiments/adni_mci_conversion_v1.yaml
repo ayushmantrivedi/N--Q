@@ -1,0 +1,53 @@
+experiment:
+  name: "adni_mci_conversion_v1"
+  description: "Real ADNI multimodal baseline: MRI (pending) + CSF Biomarkers for clinical state prediction."
+  seed: 42
+
+dataset:
+  name: "ADNI"
+  task: "MCI_conversion"
+  horizons_months: [12, 24, 36, 48, 60]
+  # Using the established ClinicalState labels from the core abstraction (CN, MCI, DEMENTIA)
+  # as found in the ADNI diagnostic data.
+  states: ["CN", "MCI", "DEMENTIA"]
+
+modalities:
+  mri:
+    active: true
+    preprocessing:
+      target_shape: [64, 64, 64]
+      normalize_intensity: true
+      brain_masking: false
+    bvae:
+      latent_dim: 16
+      beta: 4.0
+    quantum:
+      n_qubits: 4
+      n_layers: 2
+      backend: "default.qubit"
+
+  biomarkers:
+    active: true
+    trajectory:
+      features: ["current", "delta", "slope", "obs_count"]
+    quantum:
+      n_qubits: 4
+      n_layers: 2
+      backend: "default.qubit"
+
+  kinematics:
+    active: false  # Explicitly disabled as ADNI kinematics data is not currently available.
+    ctclm:
+      hidden_dim: 32
+
+qcdf:
+  projection_dim: 16
+  hidden_dim: 32
+  dropout: 0.2
+  num_classes: 3
+
+evaluation:
+  metrics: ["accuracy", "f1", "auroc", "auprc"]
+  robustness:
+    test_missing_mri: true
+    test_missing_biomarkers: true

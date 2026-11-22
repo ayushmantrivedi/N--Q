@@ -1,0 +1,28 @@
+# PennyLane Lightning Simulator Backend
+# Default quantum backend for Nāḍī-Q — CPU-based exact/sampling simulation.
+#
+# This is the primary backend for:
+# - Circuit design and debugging (noiseless)
+# - Gradient computation via parameter-shift rule
+# - Fast iteration on small qubit counts (n <= 20)
+#
+# NOTE: Results from this backend are from IDEAL simulation.
+# They do not reflect real hardware noise.
+# See configs/quantum/noise_model_basic.yaml to add noise.
+
+backend: pennylane_lightning
+n_qubits: 8
+
+# Execution parameters
+shots: null                       # null = exact statevector (no shot noise)
+                                  # Set to an integer for shot-based simulation
+seed: null                        # null = use global experiment seed
+optimization_level: 0             # No compilation optimization for simulator
+
+# Gradient method
+gradient_method: parameter_shift  # parameter_shift | adjoint | finite_diff
+                                  # adjoint is faster but only for statevector
+
+# Resource limits (for safety)
+max_circuit_depth: 100
+max_n_qubits: 25                  # Lightning simulator memory limit

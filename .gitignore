@@ -1,0 +1,134 @@
+# ==============================================================================
+# NĀḌĪ-Q — Production-Grade Git Ignore Specification
+# ==============================================================================
+# Strictly prevents tracking of bytecode, caches, temporary files, private
+# credentials, raw clinical data (PPMI/ADNI), and participant-level identifiers.
+# ==============================================================================
+
+# ===== Python Bytecode & Runtime Caches =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ===== Virtual Environments =====
+.venv/
+venv/
+ENV/
+env/
+.env
+.env.*
+
+# ===== Testing & Coverage =====
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+*.coveragerc
+
+# ===== Type Checking & Linters =====
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+.ruff_cache/
+.pre-commit-cache/
+
+# ===== Jupyter & Notebook Checkpoints =====
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ===== MLflow & Experiment Tracking =====
+mlruns/
+mlartifacts/
+experiments/runs/
+
+# ===== Scratch & Temporary Execution Files =====
+scratch/
+*.tmp
+*.temp
+*.log
+
+# ===== Operating System & IDE Caches =====
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+
+# ===== Secrets, API Keys & Credentials (CATEGORY E) =====
+*.key
+*.pem
+*.cert
+*.crt
+credentials.json
+ibm_quantum_credentials.json
+secrets/
+.auth/
+
+# ===== Raw Biomedical Imaging & Scans (CATEGORY E) =====
+*.dcm
+*.DCM
+*.nii
+*.nii.gz
+*.mgh
+*.mgz
+*.bvec
+*.bval
+
+# ===== Model Checkpoints & Arrays (CATEGORY E) =====
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.npy
+*.npz
+*.joblib
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+
+# ===== Participant Data, Manifests & Tabular Predictions (CATEGORY E) =====
+data/*.csv
+data/*.parquet
+data/raw/
+data/processed/
+data/interim/
+results/**/*.parquet
+*.parquet
+ADNI_3T_T1_candidates.csv
+mri_summary.json
+*PARTICIPANT_SPLIT_MANIFEST*.csv
+*participant_split_manifest*.csv
+
+# Explicitly retain schema documentation and checksums
+!data/**/*.sha256
+!data/**/README.md
+!notebooks/**/README.md

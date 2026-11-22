@@ -1,0 +1,35 @@
+{
+  "patient_id": 3001,
+  "quantum_state_dimension": 256,
+  "quantum_fidelity_F_Q": 0.8286170770725588,
+  "quantum_relational_drift_D_Q": 0.17138292292744117,
+  "classical_metrics": {
+    "euclidean_distance": 5.51353120803833,
+    "cosine_distance": 0.007835090160369873,
+    "rbf_similarity": 0.2187225343027336
+  },
+  "drift_sensitivity_to_perturbation": {
+    "drift_unperturbed": 0.17138292292744117,
+    "drift_perturbed": 0.19211237744826237,
+    "delta_drift": 0.0207294545208212
+  },
+  "node_activation_differentials": {
+    "delta_v_mol": 3.872983455657959,
+    "delta_e_cross_incident": 0.27414238452911377,
+    "delta_e_intra_mol_incident": 1.4052038192749023,
+    "delta_e_intra_struct_non_incident": 0.0,
+    "delta_e_intra_func_non_incident": 0.0,
+    "delta_msg_struct": 0.08575642853975296,
+    "delta_msg_func": 0.10237258672714233,
+    "delta_h_patient": 0.13507792353630066,
+    "delta_p_progression": 5.173683166503906e-05,
+    "p_prog_baseline": 0.5366867184638977,
+    "p_prog_perturbed": 0.5367384552955627
+  },
+  "physical_observables": {
+    "C_mol_struct": 6.051547825336456e-05,
+    "C_struct_func": 0.0001322031021118164,
+    "C_func_mol": 0.004225254058837891,
+    "Cumulant_3body": -4.801154136657715e-05
+  }
+}

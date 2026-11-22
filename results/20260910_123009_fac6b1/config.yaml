@@ -1,0 +1,10 @@
+experiment_id: classical_baseline_logreg_tabular_v1
+description: Logistic regression baseline on synthetic tabular data
+seed: 42
+data:
+  dataset_id: synthetic_tabular_v1
+model:
+  class: nadiq.models.classical.logistic.LogisticRegressionModel
+  params:
+    max_iter: 1000
+    random_state: 42

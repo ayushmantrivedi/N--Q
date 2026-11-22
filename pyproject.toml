@@ -1,0 +1,138 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nadiq"
+version = "0.1.0.dev0"
+description = "Hybrid Quantum-Classical Machine Learning for Early Disease-Risk Detection — Research Platform"
+readme = "README.md"
+license = { text = "Research Use Only" }
+requires-python = ">=3.10"
+
+# NOTE: Dependencies are declared conservatively.
+# Quantum backends are optional extras to avoid imposing a heavy install.
+# Do NOT add dependencies merely because they look impressive.
+dependencies = [
+    # Scientific computing fundamentals
+    "numpy>=1.26",
+    "scipy>=1.12",
+    "pandas>=2.1",
+    # Configuration management
+    "pyyaml>=6.0",
+    "omegaconf>=2.3",
+    # Experiment tracking (lightweight, offline-capable)
+    "mlflow>=2.10",
+    # Logging
+    "loguru>=0.7",
+    # Type checking support at runtime
+    "typing-extensions>=4.9",
+]
+
+[project.optional-dependencies]
+# Classical ML models
+classical = [
+    "scikit-learn>=1.4",
+    "torch>=2.2",
+]
+
+# Quantum simulation (CPU, no real hardware required)
+quantum-sim = [
+    "pennylane>=0.36",
+    "pennylane-lightning>=0.36",
+    "qiskit>=1.0",
+    "qiskit-aer>=0.13",
+]
+
+# Quantum hardware backends (optional, heavyweight)
+quantum-hw = [
+    "qiskit-ibm-runtime>=0.20",
+]
+
+# Explainability research
+xai = [
+    "shap>=0.44",
+    "captum>=0.7",
+]
+
+# Development and testing
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "pytest-xdist>=3.5",
+    "black>=24.0",
+    "ruff>=0.3",
+    "mypy>=1.9",
+    "pre-commit>=3.6",
+    "ipykernel>=6.29",
+    "jupyter>=1.0",
+]
+
+# Data and serialization
+data = [
+    "pyarrow>=15.0",
+]
+
+# Full research environment (all optional extras)
+research = [
+    "nadiq[classical,quantum-sim,xai,dev,data]",
+]
+
+[project.scripts]
+nadiq = "nadiq.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+# ---------------------------------------------------------------------------
+# Tool configurations
+# ---------------------------------------------------------------------------
+
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311", "py312"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "ANN", "S", "B", "A", "C4", "RET", "SIM"]
+ignore = [
+    "ANN101",  # Missing type annotation for `self`
+    "ANN102",  # Missing type annotation for `cls`
+    "S101",    # Use of assert (needed in scientific tests)
+]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true  # Many scientific libs lack stubs
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--tb=short -v"
+markers = [
+    "unit: fast, isolated unit tests",
+    "integration: tests requiring multiple components",
+    "scientific: tests verifying mathematical/scientific correctness",
+    "slow: tests that may take minutes (e.g., circuit simulation)",
+    "requires_quantum: tests requiring a quantum simulator installed",
+]
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["tests/*", "experiments/*", "notebooks/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]

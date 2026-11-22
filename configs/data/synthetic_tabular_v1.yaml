@@ -1,0 +1,27 @@
+# Synthetic Tabular Dataset — for development and unit testing only
+#
+# IMPORTANT: This is synthetically generated data.
+# Results on this dataset CANNOT be used to make clinical claims.
+# It exists solely to enable interface testing and algorithm debugging
+# before real datasets are available.
+
+dataset_id: synthetic_tabular_v1
+loader_class: nadiq.data.loaders.synthetic.SyntheticTabularLoader
+
+# Generation parameters
+n_samples: 5000
+n_features: 32
+n_informative: 10               # Features with true predictive signal
+class_balance: 0.3              # Fraction of positive (high-risk) samples
+noise_std: 0.1                  # Gaussian noise added to features
+seed: 42                        # Fixed seed for reproducible generation
+
+# Task definition
+task: binary_risk
+label_def: "Synthetic binary risk label — NO clinical meaning"
+
+# Splits
+split_strategy:
+  type: stratified_holdout
+  test_fraction: 0.2
+  val_fraction: 0.1

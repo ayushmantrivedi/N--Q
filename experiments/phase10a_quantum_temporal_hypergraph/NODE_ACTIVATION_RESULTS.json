@@ -1,0 +1,23 @@
+{
+  "patient_id": 3001,
+  "visit": "BL",
+  "perturbation": "+1.0 std added to Molecular node features",
+  "norm_delta_v_mol": 3.872983455657959,
+  "norm_delta_e_cross": 0.0008957802201621234,
+  "norm_delta_msg_struct": 0.0002881765249185264,
+  "norm_delta_msg_func": 0.0003930188249796629,
+  "norm_delta_v_struct_updated": 0.0003413994563743472,
+  "norm_delta_v_func_updated": 0.0007197540835477412,
+  "norm_delta_h_patient": 0.02046339400112629,
+  "delta_p_progression": 9.08970832824707e-05,
+  "p_prog_baseline": 0.5029078125953674,
+  "p_prog_perturbed": 0.502816915512085,
+  "non_incident_intra_struct_delta": 0.0,
+  "non_incident_intra_func_delta": 0.0,
+  "connected_correlator_shift": {
+    "C_mol_struct_baseline": -0.0007037117029540241,
+    "C_mol_struct_perturbed": -0.0006988809909671545,
+    "C_struct_func_baseline": -0.663556694984436,
+    "C_struct_func_perturbed": -0.663556694984436
+  }
+}

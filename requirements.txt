@@ -1,0 +1,30 @@
+# ==============================================================================
+# NĀḌĪ-Q — Core Research Platform Dependencies
+# ==============================================================================
+# Hybrid Quantum-Classical Machine Learning for Early Disease-Risk Detection
+# Python >= 3.10 required (tested on Python 3.10, 3.11, 3.12)
+# ==============================================================================
+
+# Scientific Computing & Data Structures
+numpy>=1.26.0
+scipy>=1.12.0
+pandas>=2.1.0
+pyarrow>=15.0.0
+
+# Classical Machine Learning & Neural Networks
+scikit-learn>=1.4.0
+torch>=2.2.0
+
+# Quantum Computing & Variational Simulation
+pennylane>=0.36.0
+pennylane-lightning>=0.36.0
+
+# Configuration & Experiment Management
+pyyaml>=6.0
+omegaconf>=2.3.0
+mlflow>=2.10.0
+loguru>=0.7.0
+typing-extensions>=4.9.0
+
+# Symbolic Knowledge Representation & Reasoning (MeTTa / Hyperon)
+hyperon>=0.2.0

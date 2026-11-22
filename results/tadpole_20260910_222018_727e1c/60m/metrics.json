@@ -1,0 +1,158 @@
+{
+  "LogisticRegression": {
+    "validation": {
+      "classification": {
+        "n_samples": 3,
+        "n_positives": 2,
+        "n_negatives": 1,
+        "roc_auc": 1.0,
+        "prc_auc": 1.0,
+        "accuracy": 0.6666666666666666,
+        "balanced_accuracy": 0.5,
+        "tn": 0,
+        "fp": 1,
+        "fn": 0,
+        "tp": 2,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "ppv": 0.6666666666666666,
+        "npv": NaN,
+        "f1": 0.8,
+        "precision": 0.6666666666666666,
+        "recall": 1.0
+      },
+      "calibration": {
+        "brier_score": 0.3175521123364799,
+        "ece": 0.32388651974376337
+      },
+      "auc_bootstrap_ci": {
+        "estimate": 1.0,
+        "lower": 1.0,
+        "upper": 1.0,
+        "n_bootstrap": 1000,
+        "successful_bootstraps": 678
+      }
+    },
+    "test": {
+      "classification": {
+        "n_samples": 3,
+        "note": "insufficient data or single class"
+      },
+      "calibration": {},
+      "auc_bootstrap_ci": null
+    },
+    "training_info": {
+      "training_time": 0.0022583999671041965
+    },
+    "resource_report": {
+      "n_parameters": 14,
+      "training_time": 0.0022583999671041965,
+      "inference_time": 0.0005205001216381788,
+      "is_fitted": true
+    }
+  },
+  "HistGradientBoosting": {
+    "validation": {
+      "classification": {
+        "n_samples": 3,
+        "n_positives": 2,
+        "n_negatives": 1,
+        "roc_auc": 0.5,
+        "prc_auc": 0.6666666666666666,
+        "accuracy": 0.6666666666666666,
+        "balanced_accuracy": 0.5,
+        "tn": 0,
+        "fp": 1,
+        "fn": 0,
+        "tp": 2,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "ppv": 0.6666666666666666,
+        "npv": NaN,
+        "f1": 0.8,
+        "precision": 0.6666666666666666,
+        "recall": 1.0
+      },
+      "calibration": {
+        "brier_score": 0.271604938271605,
+        "ece": 0.2222222222222222
+      },
+      "auc_bootstrap_ci": {
+        "estimate": 0.5,
+        "lower": 0.5,
+        "upper": 0.5,
+        "n_bootstrap": 1000,
+        "successful_bootstraps": 678
+      }
+    },
+    "test": {
+      "classification": {
+        "n_samples": 3,
+        "note": "insufficient data or single class"
+      },
+      "calibration": {},
+      "auc_bootstrap_ci": null
+    },
+    "training_info": {
+      "training_time": 0.037228900007903576
+    },
+    "resource_report": {
+      "n_parameters": -1,
+      "training_time": 0.037228900007903576,
+      "inference_time": 0.0029347999952733517,
+      "is_fitted": true
+    }
+  },
+  "MLP": {
+    "validation": {
+      "classification": {
+        "n_samples": 3,
+        "n_positives": 2,
+        "n_negatives": 1,
+        "roc_auc": 0.5,
+        "prc_auc": 0.8333333333333333,
+        "accuracy": 0.6666666666666666,
+        "balanced_accuracy": 0.5,
+        "tn": 0,
+        "fp": 1,
+        "fn": 0,
+        "tp": 2,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "ppv": 0.6666666666666666,
+        "npv": NaN,
+        "f1": 0.8,
+        "precision": 0.6666666666666666,
+        "recall": 1.0
+      },
+      "calibration": {
+        "brier_score": 0.22014702587660176,
+        "ece": 0.45152588685353595
+      },
+      "auc_bootstrap_ci": {
+        "estimate": 0.5,
+        "lower": 0.0,
+        "upper": 1.0,
+        "n_bootstrap": 1000,
+        "successful_bootstraps": 678
+      }
+    },
+    "test": {
+      "classification": {
+        "n_samples": 3,
+        "note": "insufficient data or single class"
+      },
+      "calibration": {},
+      "auc_bootstrap_ci": null
+    },
+    "training_info": {
+      "training_time": 0.022517899982631207
+    },
+    "resource_report": {
+      "n_parameters": 3009,
+      "training_time": 0.022517899982631207,
+      "inference_time": 0.000467000063508749,
+      "is_fitted": true
+    }
+  }
+}

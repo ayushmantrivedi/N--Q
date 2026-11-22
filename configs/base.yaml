@@ -1,0 +1,61 @@
+# Nāḍī-Q — Base Configuration
+# All experiment configs inherit from this file.
+# Override specific keys in experiment-specific configs.
+
+# ===== Reproducibility =====
+seed: 42                          # Global random seed — must be set in every run
+
+# ===== Data =====
+data:
+  dataset_id: ???                 # REQUIRED: set in experiment config
+  data_root: data/                # Root directory for dataset files
+  split_strategy:
+    type: stratified_holdout
+    test_fraction: 0.2
+    val_fraction: 0.1
+
+# ===== Preprocessing =====
+preprocessing:
+  normalize: true
+  normalization_method: zscore    # zscore | minmax | robust
+  imputation_method: median       # median | mean | knn | none
+  feature_selection: none         # none | variance_threshold | mutual_info
+
+# ===== Quantum Backend =====
+quantum:
+  backend: pennylane_lightning    # pennylane_lightning | qiskit_aer | ibm_quantum
+  n_qubits: 8
+  shots: 1024
+  noise_model: null               # null = ideal simulation
+  optimization_level: 1          # Circuit compilation level (0-3)
+
+# ===== Training =====
+training:
+  max_epochs: 100
+  early_stopping_patience: 10
+  batch_size: 32
+  optimizer:
+    name: adam
+    lr: 0.001
+    weight_decay: 0.0001
+
+# ===== Evaluation =====
+evaluation:
+  metrics:
+    - auroc
+    - auprc
+    - brier_score
+    - ece
+    - f1
+  bootstrap_samples: 1000        # For confidence intervals
+  significance_level: 0.05
+  threshold_selection: youden_j  # youden_j | f1_optimal | fixed
+
+# ===== Logging =====
+logging:
+  level: INFO
+  log_dir: experiments/runs/
+  mlflow:
+    enabled: true
+    experiment_name: nadiq_default
+    tracking_uri: mlruns/

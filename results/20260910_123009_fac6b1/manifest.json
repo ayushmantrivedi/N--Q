@@ -1,0 +1,12 @@
+{
+  "experiment_id": "20260910_123009_fac6b1",
+  "config_fingerprint": "d9218396a9f7602b3924ea333a165dd6e0f68c50878602e0464fe0b816c8a7af",
+  "preprocessing_fingerprint": "2accab8886a7e351ec4916e30f4d3af799665414a0a94df50e19dfc2da84d8de",
+  "model_class": "nadiq.models.classical.logistic.LogisticRegressionModel",
+  "dataset_id": "synthetic_tabular_v1",
+  "seed": 42,
+  "python_version": "3.12.4",
+  "os": "Windows-11-10.0.26100-SP0",
+  "timestamp": "2026-09-10T12:30:13.486446",
+  "label": "SOFTWARE VALIDATION - SYNTHETIC DATA - NOT CLINICAL"
+}

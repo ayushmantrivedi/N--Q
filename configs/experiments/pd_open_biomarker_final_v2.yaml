@@ -1,0 +1,10 @@
+{
+    "dataset_version": "UCI_174_Participant_Recovered",
+    "split_seed": 42,
+    "n_train_pids": 22,
+    "n_val_pids": 5,
+    "n_test_pids": 5,
+    "classical_model": "LogisticRegression(max_iter=1000)",
+    "qvbe_model": "QVBE(qubits=4, layers=2)",
+    "status": "LOCKED_V2"
+}

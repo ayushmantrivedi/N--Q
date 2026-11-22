@@ -1,0 +1,162 @@
+# Nāḍī-Q TADPOLE Core Feature Configuration — V1
+#
+# Every feature has EXACTLY ONE deterministic source_column.
+# The loader's column resolver will FAIL HARD if the column is not present.
+#
+# Column names are derived from the TADPOLE Challenge data dictionary:
+# https://tadpole.grand-challenge.org/Data/
+#
+# Run scripts/tadpole_inspect.py to confirm these columns exist in your file.
+# If a column name differs (e.g. due to a different ADNI release), update here.
+#
+# IMPORTANT: Do NOT add ambiguous "column_or_alternative" prose.
+# One source_column. One feature. Full stop.
+
+version: "1.0"
+endpoint_label: "5-year future dementia-transition risk from MCI baseline snapshot"
+endpoint_NOT: "Alzheimer's Disease prediction"
+
+# target_diagnosis corresponds to DiagnosisState.DEMENTIA (not DiagnosisState.AD).
+# DEMENTIA ≠ AD in this framework. See src/nadiq/data/temporal/diagnosis.py.
+target_diagnosis: DEMENTIA
+snapshot_policy: BASELINE_MCI
+
+features:
+
+  # ─── Demographic ──────────────────────────────────────────────────────────
+
+  - name: AGE_AT_SNAPSHOT
+    source_column: AGE
+    # AGE in TADPOLE is recorded per visit row.
+    # For BASELINE_MCI policy, the row AT the first MCI visit gives age at T.
+    # No computation needed: row-level AGE IS age at snapshot for this policy.
+    # For EVERY_ELIGIBLE_MCI_VISIT, this remains correct (each row has its own AGE).
+    transform: passthrough
+    temporal_semantics: row_level_at_snapshot_T
+    missingness_expected: low
+    notes: "Do not use baseline-only age for non-baseline snapshot policies."
+
+  - name: PTGENDER
+    source_column: PTGENDER
+    transform: binary_encode
+    binary_encode_map:
+      Male: 0
+      Female: 1
+    temporal_semantics: baseline_only
+    missingness_expected: very_low
+
+  - name: PTEDUCAT
+    source_column: PTEDUCAT
+    transform: passthrough
+    temporal_semantics: baseline_only
+    missingness_expected: low
+
+  - name: APOE4
+    source_column: APOE4
+    # 0 = no e4 allele, 1 = one copy, 2 = two copies
+    transform: passthrough
+    temporal_semantics: baseline_only
+    missingness_expected: low
+
+  # ─── Cognitive Assessments ────────────────────────────────────────────────
+
+  - name: MMSE
+    source_column: MMSE
+    # Mini-Mental State Exam: 0–30. Lower = worse.
+    # TADPOLE column: MMSE (present in most ADNI releases).
+    # Older ADNI releases may use MMSCORE. Run tadpole_inspect.py to confirm.
+    transform: passthrough
+    temporal_semantics: longitudinal
+    missingness_expected: moderate
+
+  - name: CDRSB
+    source_column: CDRSB
+    # Clinical Dementia Rating Sum of Boxes. 0 = normal, higher = worse.
+    transform: passthrough
+    temporal_semantics: longitudinal
+    missingness_expected: moderate
+
+  - name: ADAS11
+    source_column: ADAS11
+    # Alzheimer's Disease Assessment Scale-Cog 11. Higher = worse.
+    transform: passthrough
+    temporal_semantics: longitudinal
+    missingness_expected: moderate
+
+  - name: ADAS13
+    source_column: ADAS13
+    # ADAS-Cog 13-item version. Higher = worse.
+    transform: passthrough
+    temporal_semantics: longitudinal
+    missingness_expected: moderate
+
+  - name: RAVLT_immediate
+    source_column: RAVLT_immediate
+    # Rey Auditory Verbal Learning Test — immediate recall. Higher = better.
+    transform: passthrough
+    temporal_semantics: longitudinal
+    missingness_expected: moderate
+
+  # ─── MRI Volumetrics ─────────────────────────────────────────────────────
+
+  - name: Hippocampus
+    source_column: Hippocampus
+    # Hippocampal volume (mm³), FreeSurfer-derived.
+    transform: passthrough
+    temporal_semantics: longitudinal
+    missingness_expected: high
+    notes: "Requires MRI. High missingness in non-MRI subgroups."
+
+  - name: WholeBrain
+    source_column: WholeBrain
+    transform: passthrough
+    temporal_semantics: longitudinal
+    missingness_expected: high
+
+  - name: Entorhinal
+    source_column: Entorhinal
+    # Entorhinal cortex thickness/volume (mm³).
+    transform: passthrough
+    temporal_semantics: longitudinal
+    missingness_expected: high
+
+  - name: MidTemp
+    source_column: MidTemp
+    # Middle temporal gyrus volume (mm³).
+    transform: passthrough
+    temporal_semantics: longitudinal
+    missingness_expected: high
+
+  # ─── PET Imaging ─────────────────────────────────────────────────────────
+
+  # - name: FDG
+  #   source_column: FDG
+  #   transform: passthrough
+  #   temporal_semantics: longitudinal
+  #   missingness_expected: very_high
+
+  # - name: AV45
+  #   source_column: AV45
+  #   transform: passthrough
+  #   temporal_semantics: longitudinal
+  #   missingness_expected: very_high
+
+  # ─── CSF Biomarkers ──────────────────────────────────────────────────────
+
+  # - name: ABETA
+  #   source_column: ABETA_UPENNBIOMK9_04_19_17
+  #   transform: passthrough
+  #   temporal_semantics: longitudinal
+  #   missingness_expected: high
+
+  # - name: TAU
+  #   source_column: TAU_UPENNBIOMK9_04_19_17
+  #   transform: passthrough
+  #   temporal_semantics: longitudinal
+  #   missingness_expected: high
+
+  # - name: PTAU
+  #   source_column: PTAU_UPENNBIOMK9_04_19_17
+  #   transform: passthrough
+  #   temporal_semantics: longitudinal
+  #   missingness_expected: high

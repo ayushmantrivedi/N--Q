@@ -1,0 +1,21 @@
+# ==============================================================================
+# NĀḌĪ-Q — Development, Testing & Code Quality Dependencies
+# ==============================================================================
+
+-r requirements.txt
+
+# Testing & Test Coverage
+pytest>=8.0.0
+pytest-cov>=5.0.0
+pytest-xdist>=3.5.0
+pytest-asyncio>=0.23.0
+
+# Code Formatting & Static Analysis
+black>=24.0.0
+ruff>=0.3.0
+mypy>=1.9.0
+pre-commit>=3.6.0
+
+# Interactive Exploration
+ipykernel>=6.29.0
+jupyter>=1.0.0

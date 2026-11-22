@@ -1,0 +1,12 @@
+{
+    "dataset_versions": {
+        "MRI": "ds001907",
+        "Bio": "UCI_174",
+        "EEG": "BLOCKED"
+    },
+    "split_seed": 42,
+    "mri_model": "beta-VAE+QVBE",
+    "bio_model": "Dense+QVBE",
+    "temporal_model": "NOT_RUN",
+    "status": "LOCKED"
+}

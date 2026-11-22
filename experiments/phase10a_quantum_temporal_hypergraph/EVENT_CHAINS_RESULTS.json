@@ -1,0 +1,41 @@
+{
+  "total_patients": 341,
+  "total_progressors": 169,
+  "total_stables": 172,
+  "Mol_precedes_Motor": {
+    "count": 33,
+    "prog_count": 16,
+    "stable_count": 17,
+    "prog_rate": 0.48484848484848486,
+    "odds_ratio": 0.9534794309880815,
+    "p_value": 1.0,
+    "mean_latency_months": 42.07820672478204
+  },
+  "Struct_precedes_Motor": {
+    "count": 111,
+    "prog_count": 53,
+    "stable_count": 58,
+    "prog_rate": 0.4774774774774775,
+    "odds_ratio": 0.8980380499405469,
+    "p_value": 0.6460759513971908,
+    "mean_latency_months": 41.07782302850794
+  },
+  "Full_Trimodal_Mol_Struct_Motor": {
+    "count": 34,
+    "prog_count": 20,
+    "stable_count": 14,
+    "prog_rate": 0.5882352941176471,
+    "odds_ratio": 1.5148609779482263,
+    "p_value": 0.2817989796310803,
+    "mean_latency_months": 28.834810636583384
+  },
+  "Reverse_Motor_precedes_Mol_Control": {
+    "count": 10,
+    "prog_count": 6,
+    "stable_count": 4,
+    "prog_rate": 0.6,
+    "odds_ratio": 1.5460122699386503,
+    "p_value": 0.5397331401861037,
+    "mean_latency_months": 15.9813698630137
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "test1_pca_bottleneck": {
+    "input_dim": 50,
+    "n_qubits": 8,
+    "v2_pca8_explained_variance": 0.3003745331109279,
+    "v2_information_discarded": 0.6996254668890721,
+    "v3_trainable_adapter_present": true,
+    "v3_adapter_shape": [
+      8,
+      50
+    ],
+    "status": "REPRODUCED_AND_REMEDIATED"
+  },
+  "test2_seed_variance": {
+    "v2_var_across_seeds": 0.01256817143845845,
+    "v2_var_across_patients": 0.008277257056819597,
+    "v2_seed_to_patient_ratio": 1.5183981058779836,
+    "v3_seed_to_patient_ratio": 0.03721989953273295,
+    "status": "REPRODUCED_AND_REMEDIATED"
+  },
+  "test3_trigonometric_r2": {
+    "mean_r2": 0.8330896074179504,
+    "min_r2": 0.6546002886216677,
+    "max_r2": 0.9847376236270903,
+    "status": "REPRODUCED"
+  },
+  "test4_effective_rank": {
+    "v2_effective_rank": 9.130292088442715,
+    "v3_effective_rank": 15.177503024365222,
+    "output_dim": 23,
+    "status": "EVALUATED"
+  },
+  "test5_entanglement_ablation": {
+    "cca_r1_sep_vs_ent": 0.9977873781188301,
+    "mean_absolute_difference": 0.4926544190359134,
+    "status": "EVALUATED"
+  },
+  "test6_connected_correlators": {
+    "separable_max_abs_C": 6.749978966880121e-07,
+    "entangled_mean_abs_C": 0.16098697260018552,
+    "separable_zero_criterion_met": true,
+    "entangled_nonzero_criterion_met": true,
+    "status": "REPRODUCED_AND_VALIDATED"
+  }
+}

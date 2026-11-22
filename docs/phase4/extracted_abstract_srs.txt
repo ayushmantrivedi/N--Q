@@ -1,0 +1,342 @@
+
+SMART INDIA HACKATHON 2026
+NĀḌĪ-Q
+Real-Time Hybrid Quantum-Classical Platform for Pre-Symptomatic Disease Detection
+
+
+01  |  ABSTRACT
+
+
+
+THE PROBLEM
+Neurodegenerative disorders are managed reactively; neuronal loss can begin decades before clinical symptoms. Static thresholds struggle with subtle, longitudinal multiomics cascades and early molecular signals.
+
+
+THE INSIGHT
+Treat longitudinal trajectory velocity (Δx/Δt) of biofluids and multiomics markers as a computational “pulse”, analogous to the rhythmic intuition of Nadi Pariksha.
+
+
+THE SOLUTION
+Integrate high-dimensional multiomics and kinematic data in a hybrid quantum-classical diagnostic pipeline to identify early systemic failure.
+
+
+TECHNICAL GAP
+F≫N overfitting, barren-plateau optimization limits, NISQ phase-damping noise, and opaque AI outputs constrain pre-symptomatic clinical inference.
+
+
+OBJECTIVE
+Target a 5-year pre-symptomatic prediction window, sub-18 ms execution on NVIDIA cuQuantum/GPU simulators, and >95% clinical sensitivity using F2-optimized recall.
+
+
+EXPLAINABILITY
+Use von Neumann state entropy for mathematically grounded state probing, paired with visual localization through LiteViT-CAM.
+
+
+02  |  PROBLEM STATEMENT & OBJECTIVES
+
+Early Prediction: Achieve a 5-year pre-symptomatic prediction window for neurodegenerative decline.
+Real-Time Execution: Maintain a sub-18 ms execution budget, benchmarked on NVIDIA cuQuantum/GPU simulators, for point-of-care utility.
+High Sensitivity: Target >95% clinical sensitivity using F2-optimized recall to reduce missed diagnoses.
+Intrinsic Explainability: Probe quantum states through von Neumann entropy, S = -Tr(ρ log ρ), to provide mathematically grounded alert justifications.
+
+
+03  |  SYSTEM ARCHITECTURE & METHODOLOGY
+
+NĀḌĪ-Q uses a multimodal Multi-Factor Authentication (MFA) approach to diagnostics: a molecular trigger must be verified by structural and functional evidence to reduce false positives.
+The Three Input Pillars
+
+
+Pillar
+
+
+Methodology
+
+
+Specific Features
+
+
+Molecular Triggers
+
+
+Longitudinal Trajectory Analysis
+
+
+Plasma p-tau217, NfL, and α-synuclein velocity (Δx/Δt).
+
+
+Structural Verification
+
+
+Spatial Latent Compression
+
+
+3D T1 MRI scans (96 × 96 × 96), compressed via Supervised 3D β-VAE and 6-component PLS selection.
+
+
+Functional Verification
+
+
+Kinematic/Acoustic Analysis
+
+
+Vocal jitter, gait accelerometry, and tapping delays via CTCLM and LiteViT-CAM.
+
+
+
+03  |  SYSTEM ARCHITECTURE & METHODOLOGY — CONTINUED
+
+Quantum Variational Biomarker Embedding (QVBE)
+The quantum engine maps these inputs into a high-dimensional Hilbert space using cyclic U_3 unitaries. Superpositional entanglement (H + Z + CNOT) and a Hierarchical Quantum Attention-Fourier (QAF) layer are used to identify non-linear epistatic synergies that classical linear thresholds can miss.
+The QAF layer uses controlled phase-rotation gates to capture global frequency-based structures, supporting identification of broad brain connectivity shifts versus localized lesions.
+Optimization & Explainability
+The pipeline employs a Two-Stage Convex Warm-Start Optimization before nonconvex refinement to stabilize the learning landscape and reduce barren-plateau trapping. Gradients are computed analytically through the parameter-shift rule.
+For clinical trust, NĀḌĪ-Q uses dual-head explainability: intrinsic Q-XAI via von Neumann state entropy and real-time 15 FPS LiteViT-CAM heatmaps to visually localize abnormalities on MRI slices.
+
+
+
+
+04  |  KEY FUNCTIONAL & NON-FUNCTIONAL REQUIREMENTS
+
+NĀḌĪ-Q is designed as Software as a Medical Device (SaMD), necessitating rigorous operational constraints to ensure patient safety and clinical efficacy.
+Functional Requirements (FRs)
+
+
+ID
+
+
+Function
+
+
+Requirement
+
+
+FR-1
+
+
+Multimodal Data Ingestion
+
+
+Ingest heterogeneous EHR, biofluid and imaging data via REST/gRPC protocols, using Protocol Buffers for low-latency transmission.
+
+
+FR-2
+
+
+QVBE State Preparation
+
+
+Normalize features into [-π, π] and prepare quantum states using Angle Encoding with dual-basis Pauli-Z and Pauli-X readout mechanisms.
+
+
+FR-3
+
+
+QCDF Gated Fusion
+
+
+Adaptively balance classical and quantum scores using dynamic F2-thresholding.
+
+
+FR-4
+
+
+Intrinsic Q-XAI
+
+
+Extract deterministic attribution vectors directly from active quantum states via non-destructive auxiliary probes to explain risk factors.
+
+
+
+05  |  NON-FUNCTIONAL REQUIREMENTS
+
+
+
+ID
+
+
+Requirement
+
+
+Specification
+
+
+NFR-1
+
+
+Latency
+
+
+End-to-end inference under 18 ms on NVIDIA cuQuantum/GPU simulators.
+
+
+NFR-2
+
+
+Performance
+
+
+Target minimum 96% accuracy, 0.93 F1-score, and 95.52% F2 recall; false negatives are penalized five times more than false positives.
+
+
+NFR-3
+
+
+Reliability
+
+
+Implement XY4 Dynamical Decoupling for NISQ noise, targeting a 37%–42% reduction in Jensen-Shannon Divergence (JSD) error.
+
+
+NFR-4
+
+
+Security
+
+
+Store patient data in AES-256 zero-leakage vaults to support HIPAA/GDPR and SaMD compliance.
+
+
+06  |  IMPLEMENTATION APPROACH & TOOLS
+
+The implementation uses a hybrid software ecosystem designed for research reproducibility and hardware compatibility.
+
+
+QUANTUM / AI FRAMEWORKS
+PennyLane (v0.40+) for differentiable hybrid gradients; Qiskit (v1.2+) for pulse-level error control.
+
+
+MIDDLEWARE / HPC
+Pilot-Quantum for workload abstraction; Apache Ray for distributed tasks; NVIDIA cuQuantum SDK for GPU-accelerated statevector simulation.
+
+
+FUTURE QPU COMPATIBILITY
+Strategic alignment with National Quantum Mission hubs, specifically the Quantum Computing T-Hub at IISc Bengaluru, for future physical-QPU compatibility.
+
+
+
+
+07  |  EXPECTED OUTCOMES & SIGNIFICANCE
+
+Early interception: move neurodegenerative care toward earlier identification rather than terminal-stage diagnosis.
+Diagnostic performance claim: the source states a 6% to 15% improvement in diagnostic accuracy over classical baselines and a verified 0.93 F1-score.
+Point-of-care access: quantum-enhanced logic can run on classical GPU simulators for screening in rural and urban clinics.
+National significance: the source frames the initiative as supporting Atmanirbhar Bharat through self-reliant diagnostic infrastructure for India’s aging population.
+
+
+08  |  KEYWORDS
+
+Quantum Machine Learning • Pre-Symptomatic Diagnostics • Intrinsic Q-XAI • Hybrid Quantum-Classical Middleware • Multimodal Data Fusion
+
+
+
+09  |  SRS AT A GLANCE
+
+
+
+Layer
+
+
+Core Specification
+
+
+Evidence / Mechanism
+
+
+Input
+
+
+EHR, biofluids, 3D T1 MRI, kinematic/acoustic data
+
+
+REST/gRPC + Protocol Buffers; longitudinal measurements; 96×96×96 MRI.
+
+
+Classical preprocessing
+
+
+Trajectory analysis, spatial compression, temporal preprocessing
+
+
+Δx/Δt; supervised 3D β-VAE; 6-component PLS; CTCLM; LiteViT-CAM.
+
+
+Quantum embedding
+
+
+QVBE using cyclic U_3 and entanglement
+
+
+Angle Encoding; H + Z + CNOT; QAF controlled phase rotations.
+
+
+Fusion
+
+
+Quantum-Classical Diagnostic Fusion (QCDF)
+
+
+Dynamic F2-thresholding balances classical and quantum scores.
+
+
+Optimization
+
+
+Two-stage convex warm-start → nonconvex refinement
+
+
+Parameter-shift gradients; designed to stabilize barren-plateau-prone optimization.
+
+
+Explainability
+
+
+Intrinsic Q-XAI + visual localization
+
+
+Von Neumann entropy + 15 FPS LiteViT-CAM heatmaps.
+
+
+Noise control
+
+
+NISQ error mitigation
+
+
+XY4 Dynamical Decoupling; target 37%–42% JSD error reduction.
+
+
+Clinical / operational targets
+
+
+Early, fast, sensitive, explainable inference
+
+
+5-year window; <18 ms; >95% sensitivity; 96% accuracy target; 0.93 F1; 95.52% F2 recall.
+
+
+10  |  DESIGN / VALIDATION TARGETS
+
+
+
+PREDICTION WINDOW
+5-year pre-symptomatic target.
+
+
+LATENCY
+Sub-18 ms execution budget on specified GPU simulator benchmark.
+
+
+SENSITIVITY
+>95% clinical sensitivity target using F2-optimized recall.
+
+
+ACCURACY / F-SCORES
+96% accuracy target; 0.93 F1; 95.52% F2 recall.
+
+
+NOISE ROBUSTNESS
+37%–42% JSD error-reduction target via XY4.
+
+
+EXPLAINABILITY
+Entropy-based state probing + 15 FPS MRI heatmaps.
