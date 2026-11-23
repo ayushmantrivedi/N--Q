@@ -72,7 +72,9 @@ class ClassicalSolvers:
         t0 = time.time()
         rng = np.random.default_rng(seed)
         N = self.n_vars
-        _, exact_min_e, _ = self.builder.find_exact_optimum()
+        exact_min_e = None
+        if N <= 12:
+            _, exact_min_e, _ = self.builder.find_exact_optimum()
 
         # Random initial state
         current_x = rng.integers(0, 2, size=N)
@@ -210,7 +212,9 @@ class ClassicalSolvers:
         t0 = time.time()
         rng = np.random.default_rng(seed)
         N = self.n_vars
-        _, exact_min_e, _ = self.builder.find_exact_optimum()
+        exact_min_e = None
+        if N <= 12:
+            _, exact_min_e, _ = self.builder.find_exact_optimum()
 
         # Start from greedy solution or random
         current_x = rng.integers(0, 2, size=N)

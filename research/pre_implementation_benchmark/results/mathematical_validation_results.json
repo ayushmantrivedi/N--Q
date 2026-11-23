@@ -1,0 +1,117 @@
+{
+  "status": "PASS",
+  "algebraic_equivalence": {
+    "N_6": {
+      "n_variables": 6,
+      "n_samples": 500,
+      "max_absolute_error": 5.329070518200751e-15,
+      "mean_absolute_error": 1.2807532812075805e-15,
+      "is_exact_to_1e-9": true,
+      "qubo_offset": 6.0,
+      "ising_offset": 2.0662724699340718
+    },
+    "N_8": {
+      "n_variables": 8,
+      "n_samples": 500,
+      "max_absolute_error": 1.4210854715202004e-14,
+      "mean_absolute_error": 2.3536728122053318e-15,
+      "is_exact_to_1e-9": true,
+      "qubo_offset": 6.0,
+      "ising_offset": 9.29008608020768
+    },
+    "N_10": {
+      "n_variables": 10,
+      "n_samples": 500,
+      "max_absolute_error": 2.1316282072803006e-14,
+      "mean_absolute_error": 4.233058348290797e-15,
+      "is_exact_to_1e-9": true,
+      "qubo_offset": 13.5,
+      "ising_offset": 9.292270945796112
+    },
+    "N_12": {
+      "n_variables": 12,
+      "n_samples": 500,
+      "max_absolute_error": 5.684341886080802e-14,
+      "mean_absolute_error": 1.4011902749189175e-14,
+      "is_exact_to_1e-9": true,
+      "qubo_offset": 24.0,
+      "ising_offset": 14.908147450510832
+    },
+    "N_14": {
+      "n_variables": 14,
+      "n_samples": 500,
+      "max_absolute_error": 5.684341886080802e-14,
+      "mean_absolute_error": 9.464429240324535e-15,
+      "is_exact_to_1e-9": true,
+      "qubo_offset": 24.0,
+      "ising_offset": 25.35259741279235
+    }
+  },
+  "non_separability_demonstration": {
+    "top_k_solution": [
+      1,
+      1,
+      0,
+      0
+    ],
+    "top_k_energy": 1.2700000000000014,
+    "top_k_utility": -1.2700000000000014,
+    "top_k_is_feasible": false,
+    "top_k_contradictions": 1,
+    "exact_solution": [
+      1,
+      0,
+      1,
+      0
+    ],
+    "exact_energy": -1.8000000000000007,
+    "exact_utility": 1.8000000000000007,
+    "exact_is_feasible": true,
+    "exact_contradictions": 0,
+    "top_k_failed": true,
+    "optimality_gap_topk": 3.070000000000002,
+    "q_matrix": [
+      [
+        0.0,
+        7.220000000000001,
+        4.0,
+        4.0
+      ],
+      [
+        0.0,
+        0.0,
+        4.0,
+        4.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        4.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "q_vector": [
+      -7.0,
+      -6.95,
+      -6.8,
+      -6.75
+    ]
+  },
+  "penalty_scaling_audit": {
+    "typical_max_single_utility": 1.0,
+    "typical_max_pair_utility": 2.0,
+    "gamma_budget_penalty": 1.5,
+    "mu_contradiction_penalty": 2.5,
+    "is_gamma_theoretically_sufficient": true,
+    "is_mu_theoretically_sufficient": true,
+    "gamma_safety_margin": 0.5,
+    "mu_safety_margin": 0.5,
+    "theoretical_guarantee": "When gamma > max(U) and mu > max(U_i + U_j), any state violating the budget or containing a contradiction has strictly higher energy than the corresponding feasible state, guaranteeing that the unconstrained global minimum is feasible."
+  }
+}

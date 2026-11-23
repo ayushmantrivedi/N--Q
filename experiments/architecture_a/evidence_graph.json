@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-23T19:16:33.261835+00:00",
+  "dataset": "PPMI_N341",
+  "disclaimer": "PROVISIONAL/EXPLANATORY ONLY. These relationships are discovered from PPMI 1-year multimodal correlations with an estimated replication rate of ~6\u20137% across 15 folds. They are hypothesis-generating candidate relationships, NOT definitive causal biomarkers. Do not use for clinical decision-making.",
+  "statistical_quality": "Provisional/Explanatory",
+  "replication_note": "Evidence replication rate on 1-year PPMI deltas is ~6\u20137%. Relationships are hypothesis-generating, not definitive causal biomarkers.",
+  "discovery_summary": {
+    "n_selected": 4,
+    "n_candidates_total": 15,
+    "n_validated": 5,
+    "n_provisional": 0,
+    "n_fallback": 0,
+    "fdr_fallback_triggered": false,
+    "solver_mode_used": "tabu",
+    "discovery_runtime_ms": 2108.18
+  },
+  "power_analysis": {
+    "MDE_alpha5_power50": 0.10620593821620088,
+    "MDE_alpha5_power80": 0.15121745405450804,
+    "MDE_alpha10_power50": 0.08923028629248375,
+    "MDE_alpha10_power80": 0.13442776794246938,
+    "n_train": 341.0
+  },
+  "solver_provenance": {
+    "method": "M3_Tabu_Local_Search",
+    "energy": -2.686956,
+    "utility_score": 2.686956,
+    "is_feasible": true,
+    "optimality_gap": 0.0,
+    "runtime_ms": 2004.35,
+    "n_evaluations": 2251
+  },
+  "edges": [
+    {
+      "id": 0,
+      "src": "asyn",
+      "dst": "ptau",
+      "rel_type": "asyn_to_ptau",
+      "direction": 1,
+      "effect_r": 0.769735,
+      "p_val": 0.0,
+      "se": 0.063628,
+      "lag_years": 1.0,
+      "evidence_n": 250,
+      "status": "Validated",
+      "utility": 0.923688,
+      "statistical_quality": "Provisional/Explanatory"
+    },
+    {
+      "id": 9,
+      "src": "caudate",
+      "dst": "putamen",
+      "rel_type": "caudate_to_putamen",
+      "direction": 1,
+      "effect_r": 0.523126,
+      "p_val": 0.0,
+      "se": 0.0548,
+      "lag_years": 1.0,
+      "evidence_n": 336,
+      "status": "Validated",
+      "utility": 0.695949,
+      "statistical_quality": "Provisional/Explanatory"
+    },
+    {
+      "id": 12,
+      "src": "putamen",
+      "dst": "motor_total",
+      "rel_type": "putamen_to_motor_total",
+      "direction": -1,
+      "effect_r": -0.175335,
+      "p_val": 0.001251,
+      "se": 0.0548,
+      "lag_years": 1.0,
+      "evidence_n": 336,
+      "status": "Validated",
+      "utility": 0.366226,
+      "statistical_quality": "Provisional/Explanatory"
+    },
+    {
+      "id": 14,
+      "src": "motor_total",
+      "dst": "motor_subscore",
+      "rel_type": "motor_total_to_motor_subscore",
+      "direction": 1,
+      "effect_r": 0.528348,
+      "p_val": 0.0,
+      "se": 0.054393,
+      "lag_years": 1.0,
+      "evidence_n": 341,
+      "status": "Validated",
+      "utility": 0.701092,
+      "statistical_quality": "Provisional/Explanatory"
+    }
+  ],
+  "metta_triplets": [
+    "(Relationship asyn ptau (EffectR 0.7697) (PVal 0.0000) (Status Validated) (Direction positive) (Quality Provisional/Explanatory))",
+    "(Relationship caudate putamen (EffectR 0.5231) (PVal 0.0000) (Status Validated) (Direction positive) (Quality Provisional/Explanatory))",
+    "(Relationship putamen motor_total (EffectR -0.1753) (PVal 0.0013) (Status Validated) (Direction negative) (Quality Provisional/Explanatory))",
+    "(Relationship motor_total motor_subscore (EffectR 0.5283) (PVal 0.0000) (Status Validated) (Direction positive) (Quality Provisional/Explanatory))"
+  ]
+}

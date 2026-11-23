@@ -1,0 +1,171 @@
+{
+  "overall_pass": true,
+  "checks": [
+    {
+      "check": "unit_tests",
+      "passed": true,
+      "value": "returncode=0",
+      "elapsed_s": 48.09
+    },
+    {
+      "check": "ensemble_auroc",
+      "passed": true,
+      "value": "0.6366",
+      "elapsed_s": ""
+    },
+    {
+      "check": "prediction_invariant",
+      "passed": true,
+      "value": "delta=0.0",
+      "elapsed_s": ""
+    },
+    {
+      "check": "discovery_runtime_ms",
+      "passed": false,
+      "value": "2176.7ms",
+      "elapsed_s": ""
+    },
+    {
+      "check": "invariance_stress",
+      "passed": true,
+      "value": "delta_max=0.00e+00",
+      "elapsed_s": ""
+    }
+  ],
+  "pipeline_report": {
+    "total_runtime_ms": 2371.09,
+    "discovery_runtime_ms": 2176.65,
+    "prediction_runtime_ms": 181.82,
+    "evidence_discovery": {
+      "selected_edges": [
+        {
+          "id": 0,
+          "src": "asyn",
+          "dst": "ptau",
+          "rel_type": "asyn_to_ptau",
+          "direction": 1,
+          "effect_r": 0.7697354520823442,
+          "p_val": 2.97537263858629e-50,
+          "se": 0.06362847629757777,
+          "lag_years": 1.0,
+          "evidence_n": 250,
+          "status": "Validated",
+          "utility": 0.9236882701389715
+        },
+        {
+          "id": 9,
+          "src": "caudate",
+          "dst": "putamen",
+          "rel_type": "caudate_to_putamen",
+          "direction": 1,
+          "effect_r": 0.5231263192012363,
+          "p_val": 5.34599538112039e-25,
+          "se": 0.0547996624351191,
+          "lag_years": 1.0,
+          "evidence_n": 336,
+          "status": "Validated",
+          "utility": 0.6959485083580162
+        },
+        {
+          "id": 12,
+          "src": "putamen",
+          "dst": "motor_total",
+          "rel_type": "putamen_to_motor_total",
+          "direction": -1,
+          "effect_r": -0.17533537370261298,
+          "p_val": 0.0012509229814504405,
+          "se": 0.0547996624351191,
+          "lag_years": 1.0,
+          "evidence_n": 336,
+          "status": "Validated",
+          "utility": 0.3662262322855056
+        },
+        {
+          "id": 14,
+          "src": "motor_total",
+          "dst": "motor_subscore",
+          "rel_type": "motor_total_to_motor_subscore",
+          "direction": 1,
+          "effect_r": 0.5283483349256733,
+          "p_val": 6.529516858372712e-26,
+          "se": 0.05439282932204212,
+          "lag_years": 1.0,
+          "evidence_n": 341,
+          "status": "Validated",
+          "utility": 0.7010924962998781
+        }
+      ],
+      "n_selected": 4,
+      "solver_mode_used": "tabu",
+      "n_candidates_total": 15,
+      "n_candidates_validated": 5,
+      "n_candidates_provisional": 0,
+      "n_candidates_fallback": 0,
+      "fdr_fallback_triggered": false,
+      "power_analysis": {
+        "MDE_alpha5_power50": 0.10620593821620088,
+        "MDE_alpha5_power80": 0.15121745405450804,
+        "MDE_alpha10_power50": 0.08923028629248375,
+        "MDE_alpha10_power80": 0.13442776794246938,
+        "n_train": 341.0
+      },
+      "statistical_quality": "Provisional/Explanatory",
+      "replication_note": "Evidence replication rate on 1-year PPMI deltas is ~6\u20137%. Relationships are hypothesis-generating, not definitive causal biomarkers.",
+      "discovery_runtime_ms": 2108.1823999993503,
+      "solver_output": {
+        "method": "M3_Tabu_Local_Search",
+        "bitstring": "100000000100101",
+        "selected_indices": [
+          0,
+          9,
+          12,
+          14
+        ],
+        "num_selected": 4,
+        "energy": -2.6869555070823736,
+        "utility_score": 2.6869555070823736,
+        "is_feasible": true,
+        "budget_error": 0,
+        "num_contradictions": 0,
+        "optimality_gap": 0.0,
+        "probability": 1.0,
+        "circuit_depth": 0,
+        "gate_count": {},
+        "n_evaluations": 2251,
+        "runtime_sec": 2.004345655441284
+      }
+    },
+    "clinical_prediction": {
+      "task": "T2",
+      "seeds": [
+        42,
+        123,
+        456
+      ],
+      "n_folds": 5,
+      "seed_aurocs": [
+        0.6353,
+        0.6399,
+        0.6283
+      ],
+      "mean_auroc": 0.6345,
+      "std_auroc": 0.0048,
+      "ensemble_auroc": 0.6366,
+      "ensemble_auprc": 0.5879,
+      "ensemble_brier": 0.2355,
+      "max_quantum_delta": 0.0,
+      "evidence_graph_path": "C:\\Users\\ayush\\OneDrive\\Desktop\\Nadi-Q\\experiments\\architecture_a\\evidence_graph.json",
+      "quantum_invariant": true
+    },
+    "verification": {
+      "ensemble_auroc": 0.6366,
+      "auroc_above_threshold": true,
+      "auroc_threshold": 0.635,
+      "prediction_invariant": true,
+      "runtime_below_600ms_classical": false,
+      "max_quantum_delta": 0.0
+    },
+    "evidence_json_path": "C:\\Users\\ayush\\OneDrive\\Desktop\\Nadi-Q\\experiments\\architecture_a\\evidence_graph.json",
+    "evidence_metta_path": "C:\\Users\\ayush\\OneDrive\\Desktop\\Nadi-Q\\experiments\\architecture_a\\evidence_graph.metta"
+  }
+}

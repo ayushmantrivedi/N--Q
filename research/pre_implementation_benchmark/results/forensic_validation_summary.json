@@ -1,0 +1,99 @@
+{
+  "audit_title": "NĀḌĪ-Q Post-Benchmark Forensic Validation Summary",
+  "timestamp": "2026-11-24T00:18:00+05:30",
+  "status": "FORENSICALLY_VERIFIED",
+  "topk_reconciliation": {
+    "instance_1_analytical_counterexample": {
+      "script": "research/pre_implementation_benchmark/scripts/harness_mathematical_validation.py",
+      "n_vars": 4,
+      "budget_k": 2,
+      "topk_energy": 1.2700,
+      "exact_energy": -1.8000,
+      "optimality_gap": 3.0700,
+      "topk_is_feasible": false,
+      "contradiction_violated": true,
+      "purpose": "Theoretical proof of objective non-separability under coupled constraints"
+    },
+    "instance_2_synthetic_generator": {
+      "script": "research/pre_implementation_benchmark/scripts/harness_synthetic_benchmark.py",
+      "n_vars": 10,
+      "budget_k": 4,
+      "topk_energy": -2.7204,
+      "exact_energy": -2.7204,
+      "optimality_gap": 0.0000,
+      "topk_is_feasible": true,
+      "topk_f1_score": 1.0000,
+      "purpose": "Controlled synthetic causal recovery (rank-separable due to strong direct links)"
+    },
+    "instance_3_ppmi_real_cohort": {
+      "script": "research/pre_implementation_benchmark/scripts/harness_ppmi_discovery.py",
+      "n_vars": 10,
+      "budget_k": 4,
+      "topk_energy_mean": -0.3211,
+      "exact_energy_mean": -0.6273,
+      "optimality_gap_mean": 0.3062,
+      "topk_is_feasible_rate": 1.0000,
+      "purpose": "Real PPMI longitudinal clinical evidence discovery"
+    }
+  },
+  "clinical_metric_reconciliation": {
+    "task": "T2 (Month-12-to-Month-60 future motor progression >= 5.0)",
+    "cohort_n": 341,
+    "events_n": 159,
+    "prevalence": 0.4663,
+    "model": "LogisticRegression(C=1.0, max_iter=1000, penalty='l2')",
+    "seed_42_single_split": {
+      "auroc": 0.6353,
+      "auprc": 0.5928,
+      "brier_score": 0.2359,
+      "ece": 0.0615,
+      "matches_harness_clinical_isolation": true
+    },
+    "seed_123_single_split": {
+      "auroc": 0.6399,
+      "auprc": 0.5905,
+      "brier_score": 0.2355,
+      "ece": 0.0302
+    },
+    "seed_456_single_split": {
+      "auroc": 0.6283,
+      "auprc": 0.5791,
+      "brier_score": 0.2372,
+      "ece": 0.0618
+    },
+    "three_seed_ensemble": {
+      "auroc": 0.6366,
+      "auprc": 0.5879,
+      "brier_score": 0.2355,
+      "ece": 0.0327,
+      "matches_phase14a_reference": true
+    },
+    "prediction_invariance_delta_max": 0.0,
+    "is_strictly_invariant": true
+  },
+  "metta_fdr_audit": {
+    "root_cause_of_identical_metrics": "harness_ppmi_discovery.py line 300 intersected MeTTa-compiled nodes with fdr_mask, discarding red_map and contra_pairs without running QUBO solver",
+    "true_metta_injection_point": "BiologicalQUBOBuilder quadratic matrix Q_ij = lambda * R_ij + mu * C_ij + 2*gamma",
+    "is_metta_standalone_filter": false,
+    "recommended_role": "Symbolic knowledge compiler into quadratic optimization"
+  },
+  "fdr_power_audit": {
+    "hypotheses_m": 10,
+    "bh_alpha_rank1": 0.0050,
+    "min_r_for_rejection_at_n272": 0.170,
+    "typical_ppmi_12mo_delta_r": [0.08, 0.15],
+    "statistical_power_at_r012": 0.184,
+    "folds_with_zero_rejections": "12 / 15 (80.0%)",
+    "mean_selected_edges": 0.40,
+    "recommended_fix": "Multi-year landmarking (Month 36) + Adaptive two-tier FDR (q<=0.10 provisional)"
+  },
+  "source_artifact_verification": {
+    "mathematical_equivalence": "Independently reproduced live (task-5854)",
+    "non_separability_counterexample": "Independently reproduced live (task-5854)",
+    "clinical_isolation_invariance": "Independently reproduced live (task-5859)",
+    "synthetic_benchmark": "Independently reproduced live across 10 replicates (task-5922)",
+    "ppmi_discovery_statistical_baselines": "Independently reproduced live across 15 folds (task-5907)",
+    "ppmi_discovery_qaoa_solvers": "Verified from experiments/phase13/PHASE13_RESULTS.csv and integrated live (task-5907)",
+    "phase14a_reference_benchmarks": "Verified from experiments/phase14a/PHASE14A_T2_RESULTS.csv and confirmed by live ensemble script"
+  }
+}

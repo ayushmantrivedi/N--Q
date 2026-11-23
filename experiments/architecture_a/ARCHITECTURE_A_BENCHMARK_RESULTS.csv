@@ -1,0 +1,6 @@
+check,passed,value,elapsed_s
+unit_tests,True,returncode=0,48.09
+ensemble_auroc,True,0.6366,
+prediction_invariant,True,delta=0.0,
+discovery_runtime_ms,False,2176.7ms,
+invariance_stress,True,delta_max=0.00e+00,

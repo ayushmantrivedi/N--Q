@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "cohort_size": 341,
+  "task": "T2 (Month-12-to-Month-60 future motor progression >= 5.0)",
+  "max_absolute_difference": 0.0,
+  "mean_absolute_difference": 0.0,
+  "is_prediction_invariant": true,
+  "quantum_enabled_metrics": {
+    "auroc": 0.6352892390628241,
+    "auprc": 0.5928225799991943,
+    "brier_score": 0.23593887569391261,
+    "ece": 0.06146220689780605
+  },
+  "quantum_disabled_metrics": {
+    "auroc": 0.6352892390628241,
+    "auprc": 0.5928225799991943,
+    "brier_score": 0.23593887569391261,
+    "ece": 0.06146220689780605
+  },
+  "metric_differences": {
+    "delta_auroc": 0.0,
+    "delta_auprc": 0.0,
+    "delta_brier": 0.0,
+    "delta_ece": 0.0
+  },
+  "phase14a_historical_comparison": {
+    "m0_classical_logistic_auroc": 0.6366,
+    "m0_classical_logistic_auprc": 0.5879,
+    "m6_ctclm_baseline_auroc": 0.6131,
+    "m6_ctclm_baseline_auprc": 0.5589,
+    "m8_ctclm_brqk_coupled_hybrid_auroc": 0.5027,
+    "m8_coupled_hybrid_delta_auroc": -0.1104,
+    "m8_p_value_drop": 0.001,
+    "m5_brqk_standalone_auroc": 0.4158
+  }
+}
