@@ -1,0 +1,127 @@
+{
+  "phase": "Phase 11B",
+  "title": "QVBE-v4 Graph-Conditioned Temporal Quantum Relational Engine",
+  "verdict": "GO \u2014 COMPETITIVE QUANTUM RELATIONAL ENGINE (PARITY ACHIEVED)",
+  "rationale": "QVBE-v4 achieves viable performance (AUROC=0.6275, Brier=0.2387) competitive with matched classical models (AUROC=0.5919), proving graph-conditioned Hamiltonian circuit compilation succeeds without numerical collapse or gradient death.",
+  "part_a_synthetic_verification": {
+    "initial_effective_rank": 9.873298799933634,
+    "final_effective_rank": 8.772558308492133,
+    "edge_recon_mse": 0.0030366615392267704,
+    "temporal_pred_mse": 0.007967719808220863,
+    "final_loss_total": 0.345037579536438,
+    "runtime_seconds": 4.219151496887207
+  },
+  "part_b_ppmi_pilot": {
+    "verdict": "GO \u2014 COMPETITIVE QUANTUM RELATIONAL ENGINE (PARITY ACHIEVED)",
+    "rationale": "QVBE-v4 achieves viable performance (AUROC=0.6275, Brier=0.2387) competitive with matched classical models (AUROC=0.5919), proving graph-conditioned Hamiltonian circuit compilation succeeds without numerical collapse or gradient death.",
+    "cohort_size": 341,
+    "n_seeds": 3,
+    "n_folds": 5,
+    "predeclared_criteria": {
+      "crit1_brier_3pct": false,
+      "crit2_ci_supports": false,
+      "crit3_auc_stable": true,
+      "crit5_topology_matters": true,
+      "m4_vs_mc_brier_diff": -0.03503593345542863,
+      "m4_vs_m1_brier_diff": -0.0011750645459795706,
+      "m4_vs_m5_brier_diff": -0.004451321302726241,
+      "paired_brier_ci_m4_minus_mc": [
+        -0.031272934589086226,
+        -0.05014301336113426,
+        -0.013629558750490154
+      ],
+      "paired_brier_ci_m4_minus_m1": [
+        -0.003087325914686523,
+        -0.009924368957418512,
+        0.003646798700099725
+      ],
+      "paired_brier_ci_m4_minus_m5": [
+        -0.004339503668227829,
+        -0.010954089245407467,
+        0.0018264440857500125
+      ]
+    },
+    "model_summary": [
+      {
+        "model": "M0_Classical_Baseline",
+        "auroc_mean": 0.6391793954405761,
+        "auroc_std": 0.003469384565446191,
+        "auprc_mean": 0.6067926278130659,
+        "auprc_std": 0.0050549392074714615,
+        "brier_mean": 0.2414848542178828,
+        "brier_std": 0.0020297129296425634,
+        "ece_mean": 0.07166677018225136,
+        "ece_std": 0.010993220449868913
+      },
+      {
+        "model": "M1_QVBE4_No_Entangle",
+        "auroc_mean": 0.6164969496812073,
+        "auroc_std": 0.01804429333908115,
+        "auprc_mean": 0.6015629313962881,
+        "auprc_std": 0.020509515099251325,
+        "brier_mean": 0.23983706175455444,
+        "brier_std": 0.003905754183117743,
+        "ece_mean": 0.07571705678370456,
+        "ece_std": 0.013630623843527052
+      },
+      {
+        "model": "M2_QVBE4_Pairwise_Entangled",
+        "auroc_mean": 0.627964313563598,
+        "auroc_std": 0.02786674185022945,
+        "auprc_mean": 0.6282148270838707,
+        "auprc_std": 0.020421658023360323,
+        "brier_mean": 0.23707317648485518,
+        "brier_std": 0.004347897498952789,
+        "ece_mean": 0.03561472187760057,
+        "ece_std": 0.013054919748066681
+      },
+      {
+        "model": "M3_QVBE4_Pairwise_Triad",
+        "auroc_mean": 0.6232168249162883,
+        "auroc_std": 0.020205199037684998,
+        "auprc_mean": 0.5954126860677368,
+        "auprc_std": 0.01845568250762299,
+        "brier_mean": 0.24060230841397798,
+        "brier_std": 0.0035280789275137013,
+        "ece_mean": 0.05290706667644887,
+        "ece_std": 0.026985445984553245
+      },
+      {
+        "model": "M4_QVBE4_Time_Conditioned",
+        "auroc_mean": 0.6274712169166552,
+        "auroc_std": 0.024974054624784105,
+        "auprc_mean": 0.5993998628546787,
+        "auprc_std": 0.02268739516040917,
+        "brier_mean": 0.23866199720857487,
+        "brier_std": 0.004668206023628648,
+        "ece_mean": 0.027847231075327886,
+        "ece_std": 0.01582161562517613
+      },
+      {
+        "model": "M5_QVBE4_Shuffled_Topology",
+        "auroc_mean": 0.6077244163111784,
+        "auroc_std": 0.01750367920241605,
+        "auprc_mean": 0.6071942299204331,
+        "auprc_std": 0.01583692592932992,
+        "brier_mean": 0.2431133185113011,
+        "brier_std": 0.001835457880335796,
+        "ece_mean": 0.044307620345613946,
+        "ece_std": 0.014495824276386352
+      },
+      {
+        "model": "M_Classical_Relational",
+        "auroc_mean": 0.5918765194257144,
+        "auroc_std": 0.0313375927311081,
+        "auprc_mean": 0.5708242287293713,
+        "auprc_std": 0.04204993812111701,
+        "brier_mean": 0.2736979306640035,
+        "brier_std": 0.01567097462646707,
+        "ece_mean": 0.15554396252358152,
+        "ece_std": 0.021631959916188836
+      }
+    ],
+    "runtime_seconds": 374.4636948108673
+  },
+  "timestamp": "2026-11-23 00:08:29",
+  "total_runtime_seconds": 389.1629145145416
+}

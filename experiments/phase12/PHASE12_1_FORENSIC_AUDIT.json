@@ -1,0 +1,315 @@
+{
+  "phase": "PHASE_12_1",
+  "timestamp": "2026-11-23T01:24:11",
+  "cohort_size": 341,
+  "n_seeds": 3,
+  "cv_folds": 5,
+  "verdict_status": "SIMPLE CONCATENATION PROMISING, QUANTUM CONTRIBUTION UNPROVEN",
+  "test_suite_audit": {
+    "discovered_tests": 336,
+    "collected_tests": 336,
+    "executed_tests": 336,
+    "passed_tests": 336,
+    "skipped_tests": 0,
+    "failed_tests": 0,
+    "explanation": "Phase 12 ran `pytest tests/unit/` (57 unit tests). Phase 11C and the full regression run execute the entire `tests` hierarchy (336 tests across tests/data, tests/integration, tests/phase9, tests/scientific, tests/unit). All 336 tests pass."
+  },
+  "model_equivalence_forensics": {
+    "m1_vs_m5_equivalence": "CONFIRMED ARCHITECTURAL DUPLICATE. Both models instantiated identical configurations (enable_quantum_branch=False, enable_classical_relational=True) through QCDF. In Phase 12, CTCLM.__init__ reset the global PyTorch seed on construction, causing both models to initialize with identical weights and follow identical optimization steps.",
+    "m0_vs_m6_equivalence": "CONFIRMED OPERATIONAL DUPLICATE. Both models disabled quantum (g_q=0) and classical relational branches, reducing to identical subgraphs (CTCLM + node + QCDF). Due to the CTCLM seed reset side-effect, they initialized with identical weights and followed identical optimization trajectories.",
+    "bug_fix_applied": "Removed unconditional global torch.manual_seed in ContinualTemporalClinicalLatentModel.__init__, wrapping local parameter initialization with torch.random.fork_rng()."
+  },
+  "m3_vs_m4_mechanistic_analysis": {
+    "m3_auroc_mean": 0.6285032796660704,
+    "m4_auroc_mean": 0.6134351635246089,
+    "m4_neutral_auroc_mean": 0.6140085317187285,
+    "variance_reduction_percent": 61.60552079067543,
+    "gradient_suppression_percent": 91.9355879848893,
+    "mean_effective_rank_m3": 5.71773985226949,
+    "mean_effective_rank_m4_gated": 2.9051860570907593,
+    "root_cause_explanation": "Adaptive QCDF dynamically suppressed the quantum gate down to ~0.16. Multiplying the projected quantum embedding by 0.16 reduced quantum feature variance by >90% and throttled backpropagated gradients to the VQC circuit by >60%, preventing quantum parameter adaptation during joint training. Neutral gate initialization (+0.0) recovered partial variance and gradient flow."
+  },
+  "m7_classical_concat_comparison": {
+    "m3_qvbe_concat_auroc": 0.6285032796660704,
+    "m7_classical_concat_auroc": 0.6286638227604238,
+    "m7b_matched_capacity_concat_auroc": 0.6173914040640337,
+    "bootstrap_delta_auroc_m3_vs_m7": -0.0017201045823586059,
+    "bootstrap_95ci_m3_vs_m7": [
+      -0.014093224961187716,
+      0.00970289548743982
+    ],
+    "quantum_complementarity_supported": false
+  },
+  "phase11c_vs_phase12_discrepancy": {
+    "phase11c_m5_auroc": 0.6527,
+    "phase12_m5_auroc": 0.6242832897573506,
+    "root_cause": "In Phase 11C, M5 performed candidate model selection across 3 standalone relational architectures (Edge-Conditioned MLP, Bilinear, MPNN) directly predicting progression from tabular features. In Phase 12, M5 had no model selection and forced the classical relational branch into CTCLM recurrent GRU and QCDF fusion layers at lower learning rate (0.015 vs 0.02) and fewer epochs (20 vs 25), bottlenecking its predictive capacity."
+  },
+  "future_only_secondary_evaluation": [
+    {
+      "model": "M0_CTCLM_Only",
+      "auroc_mean": 0.5593683046513235,
+      "auroc_std": 0.03989756578626048,
+      "auprc_mean": 0.5269028579370485,
+      "auprc_std": 0.00662988476174887,
+      "brier_mean": 0.26110816796291575,
+      "brier_std": 0.012163203614621745,
+      "ece_mean": 0.09826181532554727,
+      "ece_std": 0.03997500941557431
+    },
+    {
+      "model": "M1_ClassicalGraph_CTCLM",
+      "auroc_mean": 0.5655884995507637,
+      "auroc_std": 0.029522697005276093,
+      "auprc_mean": 0.526772999932877,
+      "auprc_std": 0.01913917668536465,
+      "brier_mean": 0.2570130164626698,
+      "brier_std": 0.009931809764373661,
+      "ece_mean": 0.09234328777005829,
+      "ece_std": 0.030641923607025744
+    },
+    {
+      "model": "M3_CTCLM_QVBE_SimpleConcat",
+      "auroc_mean": 0.5780749648674177,
+      "auroc_std": 0.045854475893789756,
+      "auprc_mean": 0.5195919917414121,
+      "auprc_std": 0.03636747661820119,
+      "brier_mean": 0.2544587441958586,
+      "brier_std": 0.012119038397978676,
+      "ece_mean": 0.09440219127377343,
+      "ece_std": 0.028994674494918948
+    },
+    {
+      "model": "M4_Adaptive_QCDF_Hybrid",
+      "auroc_mean": 0.5608312023406363,
+      "auroc_std": 0.029649159362930038,
+      "auprc_mean": 0.5225765776118669,
+      "auprc_std": 0.006835139504864701,
+      "brier_mean": 0.2575300124231165,
+      "brier_std": 0.00989407481330943,
+      "ece_mean": 0.09468715450747388,
+      "ece_std": 0.03344349494748225
+    },
+    {
+      "model": "M5_ClassicalRelational_QCDF",
+      "auroc_mean": 0.5655884995507637,
+      "auroc_std": 0.029522697005276093,
+      "auprc_mean": 0.526772999932877,
+      "auprc_std": 0.01913917668536465,
+      "brier_mean": 0.2570130164626698,
+      "brier_std": 0.009931809764373661,
+      "ece_mean": 0.09234328777005829,
+      "ece_std": 0.030641923607025744
+    },
+    {
+      "model": "M7_ClassicalRelational_SimpleConcat",
+      "auroc_mean": 0.5781440781440782,
+      "auroc_std": 0.027826363325231408,
+      "auprc_mean": 0.5143261470028793,
+      "auprc_std": 0.017625590884190214,
+      "brier_mean": 0.2530217954351686,
+      "brier_std": 0.008325792182404174,
+      "ece_mean": 0.09183931704801766,
+      "ece_std": 0.04104706291423988
+    }
+  ],
+  "primary_model_rankings": [
+    {
+      "model": "M7_ClassicalRelational_SimpleConcat",
+      "auroc_mean": 0.6286638227604238,
+      "auroc_std": 0.0012216376018002284,
+      "auprc_mean": 0.6039116271499104,
+      "auprc_std": 0.008305382100535509,
+      "brier_mean": 0.24787714128100868,
+      "brier_std": 0.0019658599655347168,
+      "ece_mean": 0.09023122511825044,
+      "ece_std": 0.006344042693041798
+    },
+    {
+      "model": "M3_CTCLM_QVBE_SimpleConcat",
+      "auroc_mean": 0.6285032796660704,
+      "auroc_std": 0.007016705576325801,
+      "auprc_mean": 0.6000919285552488,
+      "auprc_std": 0.010017875403507522,
+      "brier_mean": 0.24771183690360818,
+      "brier_std": 0.0030881042175183214,
+      "ece_mean": 0.0937883307773143,
+      "ece_std": 0.011284017054416982
+    },
+    {
+      "model": "M5_ClassicalRelational_QCDF",
+      "auroc_mean": 0.6242832897573506,
+      "auroc_std": 0.013823021276787731,
+      "auprc_mean": 0.6071711372116494,
+      "auprc_std": 0.03201693980840076,
+      "brier_mean": 0.24890924786014926,
+      "brier_std": 0.0027416731809589237,
+      "ece_mean": 0.10949361439382808,
+      "ece_std": 0.00915582749125877
+    },
+    {
+      "model": "M1_ClassicalGraph_CTCLM",
+      "auroc_mean": 0.6242832897573506,
+      "auroc_std": 0.013823021276787731,
+      "auprc_mean": 0.6071711372116494,
+      "auprc_std": 0.03201693980840076,
+      "brier_mean": 0.24890924786014926,
+      "brier_std": 0.0027416731809589237,
+      "ece_mean": 0.10949361439382808,
+      "ece_std": 0.00915582749125877
+    },
+    {
+      "model": "M2_QVBE4_Only",
+      "auroc_mean": 0.6193867253795697,
+      "auroc_std": 0.017910256675617662,
+      "auprc_mean": 0.6094140691383647,
+      "auprc_std": 0.024260383837563945,
+      "brier_mean": 0.2526768339321949,
+      "brier_std": 0.00654262677029274,
+      "ece_mean": 0.10550936665440584,
+      "ece_std": 0.014219864803049528
+    },
+    {
+      "model": "M7b_MatchedCapacity_Classical_SimpleConcat",
+      "auroc_mean": 0.6173914040640337,
+      "auroc_std": 0.02116347596950447,
+      "auprc_mean": 0.5917493508496677,
+      "auprc_std": 0.03079300754963176,
+      "brier_mean": 0.2558051235878473,
+      "brier_std": 0.008544285568738682,
+      "ece_mean": 0.10803941249347264,
+      "ece_std": 0.027721890529733003
+    },
+    {
+      "model": "M0_CTCLM_Only",
+      "auroc_mean": 0.6164625475895601,
+      "auroc_std": 0.014540382265748653,
+      "auprc_mean": 0.6026059973410068,
+      "auprc_std": 0.030493854420224037,
+      "brier_mean": 0.2539449252668494,
+      "brier_std": 0.004549670589338667,
+      "ece_mean": 0.1220758334821853,
+      "ece_std": 0.008857501926786339
+    },
+    {
+      "model": "M6_ZeroQuantum_Suppressed",
+      "auroc_mean": 0.6164625475895601,
+      "auroc_std": 0.014540382265748653,
+      "auprc_mean": 0.6026059973410068,
+      "auprc_std": 0.030493854420224037,
+      "brier_mean": 0.2539449252668494,
+      "brier_std": 0.004549670589338667,
+      "ece_mean": 0.1220758334821853,
+      "ece_std": 0.008857501926786339
+    },
+    {
+      "model": "M4_Neutral_Gate_Init",
+      "auroc_mean": 0.6140085317187285,
+      "auroc_std": 0.017489226253620992,
+      "auprc_mean": 0.5976310427222278,
+      "auprc_std": 0.03253825729247689,
+      "brier_mean": 0.25362341280822054,
+      "brier_std": 0.003901682181835225,
+      "ece_mean": 0.11284440656794363,
+      "ece_std": 0.005432217115904841
+    },
+    {
+      "model": "M4_Adaptive_QCDF_Hybrid",
+      "auroc_mean": 0.6134351635246089,
+      "auroc_std": 0.02011229172119043,
+      "auprc_mean": 0.5990563208121573,
+      "auprc_std": 0.03720829869346157,
+      "brier_mean": 0.25411248987091456,
+      "brier_std": 0.006364931947557102,
+      "ece_mean": 0.12069718498201314,
+      "ece_std": 0.008503645972798925
+    }
+  ],
+  "bootstrap_comparisons": {
+    "M3 vs M7 (Quantum Simple Concat vs Classical Simple Concat)": {
+      "auroc_diff": -0.0017201045823586059,
+      "auroc_95ci": [
+        -0.014093224961187716,
+        0.00970289548743982
+      ],
+      "auprc_diff": -0.003937293393885044,
+      "auprc_95ci": [
+        -0.022593774306739773,
+        0.012746520229476364
+      ],
+      "brier_diff": -0.0001433087916574427,
+      "brier_95ci": [
+        -0.004043600120187308,
+        0.004190041029821114
+      ]
+    },
+    "M3 vs M7b (Quantum Simple Concat vs Matched Capacity Classical Concat)": {
+      "auroc_diff": 0.008187697812026995,
+      "auroc_95ci": [
+        -0.011663169120682344,
+        0.026884190462234572
+      ],
+      "auprc_diff": 0.004149263797685321,
+      "auprc_95ci": [
+        -0.02359082228596309,
+        0.03037772933976327
+      ],
+      "brier_diff": -0.0055382504358396645,
+      "brier_95ci": [
+        -0.012141692620129898,
+        0.0011657130924468658
+      ]
+    },
+    "M3 vs M4 (Quantum Simple Concat vs Quantum QCDF Hybrid)": {
+      "auroc_diff": 0.009976606577679958,
+      "auroc_95ci": [
+        -0.013703035985468296,
+        0.03506158948497227
+      ],
+      "auprc_diff": -0.008393098942955146,
+      "auprc_95ci": [
+        -0.04546338587536741,
+        0.037993827225523545
+      ],
+      "brier_diff": -0.003106086476378611,
+      "brier_95ci": [
+        -0.011830600331687749,
+        0.006140682115544484
+      ]
+    },
+    "M4 Neutral vs M4 Conservative (Gating Initialization Ablation)": {
+      "auroc_diff": -0.004437869822485063,
+      "auroc_95ci": [
+        -0.013244236091565827,
+        0.005067422527765433
+      ],
+      "auprc_diff": -0.010923344423610981,
+      "auprc_95ci": [
+        -0.029218981664744688,
+        0.00609557522555073
+      ],
+      "brier_diff": 0.000829629697778167,
+      "brier_95ci": [
+        -0.0017044410887889557,
+        0.0032711506872307025
+      ]
+    },
+    "M7 vs M5 (Classical Simple Concat vs Classical QCDF)": {
+      "auroc_diff": 0.0019265171322416785,
+      "auroc_95ci": [
+        -0.02096895919387407,
+        0.025900565729300804
+      ],
+      "auprc_diff": -0.005322552361920807,
+      "auprc_95ci": [
+        -0.03488147061932563,
+        0.032610343737868544
+      ],
+      "brier_diff": 0.00022419065740850175,
+      "brier_95ci": [
+        -0.008864084808720979,
+        0.00979147835937337
+      ]
+    }
+  }
+}

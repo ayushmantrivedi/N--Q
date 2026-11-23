@@ -1,0 +1,102 @@
+{
+  "phase": "Phase 11A",
+  "title": "Rapid Graph-Grown Quantum Relational Hypothesis Test",
+  "verdict": "GO \u2014 CONDITIONAL",
+  "rationale": "Exploratory signals observed but high statistical uncertainty or borderline metrics prevent a decisive conclusion.",
+  "cohort_size": 341,
+  "n_seeds": 3,
+  "n_folds_per_seed": 5,
+  "hypotheses_evaluation": {
+    "H1_graph_structure": {
+      "mean_test_sign_replication_rate": 0.6444444444444445,
+      "mean_effect_drift": 0.08949096722829203,
+      "m1_vs_m0_brier_diff": 0.0015256007637342306,
+      "m1_vs_m0_auroc_diff": 0.0034287418008347448,
+      "metta_execution": "Verified \u2014 Hyperon 0.2.10 rule-based edge state transitions and motif query"
+    },
+    "H2_quantum_relational": {
+      "rel_brier_reduction_vs_m1": -0.035256319234323645,
+      "rel_brier_reduction_vs_m2": 0.009277278597732506,
+      "crit1_brier_3pct": false,
+      "crit2_ci_supports": false,
+      "crit3_auc_stable": false,
+      "crit4_seed_robust": false,
+      "crit5_topology_matters": true,
+      "m3_vs_m4_brier_diff": -0.0018995362654824488,
+      "paired_brier_ci_m3_minus_m1": [
+        0.011831400567989203,
+        -0.007982775943687228,
+        0.031119094856974918
+      ],
+      "paired_brier_ci_m3_minus_m2": [
+        -0.00201215218660028,
+        -0.004060702709213276,
+        0.0001868586029863922
+      ],
+      "paired_brier_ci_m3_minus_m4": [
+        -0.001589706686171033,
+        -0.0036789786572898587,
+        0.0004992420652393203
+      ]
+    }
+  },
+  "model_summary": [
+    {
+      "model": "M0_Classical_Baseline",
+      "auroc_mean": 0.6412549883032889,
+      "auroc_std": 0.00971553075349303,
+      "auprc_mean": 0.613516683716945,
+      "auprc_std": 0.006163969199260526,
+      "brier_mean": 0.24054729512886305,
+      "brier_std": 0.004205417508245852,
+      "ece_mean": 0.07680245160415611,
+      "ece_std": 0.008738631087519839
+    },
+    {
+      "model": "M1_Graph_Classical",
+      "auroc_mean": 0.6446837301041236,
+      "auroc_std": 0.002547226518054703,
+      "auprc_mean": 0.6222814284571238,
+      "auprc_std": 0.009258225403303214,
+      "brier_mean": 0.24207289589259728,
+      "brier_std": 0.0006097619989847226,
+      "ece_mean": 0.07770646953197853,
+      "ece_std": 0.011901944757501448
+    },
+    {
+      "model": "M2_Quantum_No_Entangle",
+      "auroc_mean": 0.49221365992385674,
+      "auroc_std": 0.030587006540933933,
+      "auprc_mean": 0.48176076990865635,
+      "auprc_std": 0.020163307323763504,
+      "brier_mean": 0.2529542219779258,
+      "brier_std": 0.0022268454541791174,
+      "ece_mean": 0.043821188507425,
+      "ece_std": 0.026876394858055607
+    },
+    {
+      "model": "M3_Graph_Quantum_Entangled",
+      "auroc_mean": 0.5186115315811202,
+      "auroc_std": 0.007347806805885918,
+      "auprc_mean": 0.4979574953003382,
+      "auprc_std": 0.010510203769065175,
+      "brier_mean": 0.2506074951881639,
+      "brier_std": 0.0014521831564186644,
+      "ece_mean": 0.015347498282426028,
+      "ece_std": 0.009918263368926074
+    },
+    {
+      "model": "M4_Shuffled_Topology",
+      "auroc_mean": 0.5054355304802531,
+      "auroc_std": 0.0370552688764644,
+      "auprc_mean": 0.4897331483828627,
+      "auprc_std": 0.02966968307269273,
+      "brier_mean": 0.25250703145364634,
+      "brier_std": 0.004386784490288353,
+      "ece_mean": 0.029859400477227575,
+      "ece_std": 0.018846178362143435
+    }
+  ],
+  "timestamp": "2026-11-22 23:38:40",
+  "total_runtime_seconds": 36.806729316711426
+}

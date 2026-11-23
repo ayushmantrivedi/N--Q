@@ -1,0 +1,122 @@
+{
+  "phase": "PHASE_12",
+  "timestamp": "2026-11-23T01:00:55",
+  "cohort_size": 341,
+  "n_seeds": 3,
+  "cv_folds": 5,
+  "verdict_status": "QUANTUM RELATIONAL ENCODING PROVIDES NO ADVANTAGE OVER MATCHED CLASSICAL CONTROL",
+  "quantum_advantage_detected": false,
+  "adaptive_gating": {
+    "quantum_gate_mean": 0.16033175741508968,
+    "quantum_gate_std": 0.0911255651301899,
+    "temporal_gate_mean": 0.5188491618076844,
+    "temporal_gate_std": 0.12019059416586358,
+    "can_suppress_quantum": true
+  },
+  "model_rankings_primary_auroc": [
+    {
+      "model": "M3_CTCLM_QVBE_SimpleConcat",
+      "auroc_mean": 0.6295124076877208,
+      "auprc_mean": 0.6051500668907525,
+      "brier_mean": 0.2474014353250141
+    },
+    {
+      "model": "M5_ClassicalRelational_QCDF",
+      "auroc_mean": 0.6146621714600248,
+      "auprc_mean": 0.5858544076008089,
+      "brier_mean": 0.2477286419291113
+    },
+    {
+      "model": "M1_ClassicalGraph_CTCLM",
+      "auroc_mean": 0.6146621714600248,
+      "auprc_mean": 0.5858544076008089,
+      "brier_mean": 0.2477286419291113
+    },
+    {
+      "model": "M4_Adaptive_QCDF_Hybrid",
+      "auroc_mean": 0.610442181551305,
+      "auprc_mean": 0.587107060733803,
+      "brier_mean": 0.25390308176230864
+    },
+    {
+      "model": "M0_CTCLM_Only",
+      "auroc_mean": 0.6079996330443557,
+      "auprc_mean": 0.5888648102148536,
+      "brier_mean": 0.2569498352709021
+    },
+    {
+      "model": "M6_ZeroQuantum_Suppressed",
+      "auroc_mean": 0.6079996330443557,
+      "auprc_mean": 0.5888648102148536,
+      "brier_mean": 0.2569498352709021
+    },
+    {
+      "model": "M2_QVBE4_Only",
+      "auroc_mean": 0.6076785468556488,
+      "auprc_mean": 0.5927342822727729,
+      "brier_mean": 0.2596063426356036
+    }
+  ],
+  "hypothesis_tests_clustered_bootstrap": {
+    "M4 vs M5 (Quantum vs Matched Classical Relational)": {
+      "auroc_diff": -0.006467593229668389,
+      "auroc_95ci": [
+        -0.01961203147265629,
+        0.007965981939753152
+      ],
+      "auprc_diff": -0.011008823382397614,
+      "auprc_95ci": [
+        -0.041770252532247296,
+        0.023814864171973007
+      ],
+      "brier_diff": 0.00498488132786673,
+      "brier_95ci": [
+        0.00029062381355382186,
+        0.009967428678141719
+      ],
+      "quantum_superior": false
+    },
+    "M4 vs M6 (Quantum vs Quantum Suppressed)": {
+      "auroc_diff": 0.002752167331773747,
+      "auroc_95ci": [
+        -0.009327035584004292,
+        0.014643344014035546
+      ],
+      "auprc_diff": -0.008377478043026798,
+      "auprc_95ci": [
+        -0.028678980869016667,
+        0.011892493709007732
+      ],
+      "brier_diff": -0.0027311471304522494,
+      "brier_95ci": [
+        -0.0067700374835037115,
+        0.0016264047721469082
+      ],
+      "quantum_superior": false
+    },
+    "M4 vs M0 (Quantum Hybrid vs Pure CTCLM)": {
+      "auroc_diff": 0.002752167331773747,
+      "auroc_95ci": [
+        -0.009327035584004292,
+        0.014643344014035546
+      ],
+      "auprc_diff": -0.008377478043026798,
+      "auprc_95ci": [
+        -0.028678980869016667,
+        0.011892493709007732
+      ],
+      "brier_diff": -0.0027311471304522494,
+      "brier_95ci": [
+        -0.0067700374835037115,
+        0.0016264047721469082
+      ],
+      "quantum_superior": false
+    }
+  },
+  "qxai_summary": {
+    "all_perturbation_checks_invariant": true,
+    "max_observed_perturbation_leakage": 0.0,
+    "mean_abs_quantum_attribution": 0.007063251066332062,
+    "mean_abs_temporal_attribution": 0.03950915411114693
+  }
+}

@@ -27,6 +27,10 @@ from nadiq.models.fusion.qcdf import (
     QCDFConfig,
     QCDFOutput,
 )
+from nadiq.models.quantum.brqk import (
+    BRQKConfig,
+    BiologicalRelationalQuantumKernel,
+)
 
 __all__ = [
     "QVBEConfig",
@@ -40,4 +44,6 @@ __all__ = [
     "QCDF",
     "QCDFConfig",
     "QCDFOutput",
+    "BRQKConfig",
+    "BiologicalRelationalQuantumKernel",
 ]

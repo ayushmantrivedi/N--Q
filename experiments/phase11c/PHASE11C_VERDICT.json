@@ -1,0 +1,121 @@
+{
+  "phase": "Phase 11C",
+  "title": "QVBE-v4 Relational Optimization & Rigorous Classical Benchmark",
+  "verdict": "QUANTUM ENCODING NOT BETTER THAN CLASSICAL.",
+  "rationale": "Parameter-matched classical relational modeling (AUROC=0.6527) matched or exceeded quantum circuit representations (AUROC M4=0.6296) on the PPMI cohort.",
+  "cohort_size": 341,
+  "n_seeds": 3,
+  "n_folds": 5,
+  "selected_classical_control": "Parameter-Matched Relational Suite (Edge-Conditioned MLP, Bilinear, MPNN)",
+  "comparisons": {
+    "m4_vs_m5_brier_diff": 0.0013476907303432428,
+    "m4_vs_m1_brier_diff": 0.00020042610972154096,
+    "m4_vs_m6_brier_diff": 0.003869514725090839,
+    "m4_vs_m2_brier_diff": 0.002743159388806371,
+    "m4_vs_m5_auroc_diff": -0.023152607678546877,
+    "m4_vs_m1_auroc_diff": 0.002155864409889463,
+    "m4_vs_m6_auroc_diff": -0.01161643961286174,
+    "m4_vs_m2_auroc_diff": -0.006788679418375354,
+    "clustered_brier_ci_m4_minus_m5": [
+      -0.00011532833157806843,
+      -0.011427886930982794,
+      0.010544076991325296
+    ],
+    "clustered_brier_ci_m4_minus_m1": [
+      0.00033246573430278925,
+      -0.006258284592463604,
+      0.007119238866546208
+    ],
+    "clustered_brier_ci_m4_minus_m6": [
+      0.0006213859372572461,
+      -0.004706214599684805,
+      0.006706095464775632
+    ],
+    "clustered_auroc_ci_m4_minus_m5": [
+      -0.01661621026558413,
+      -0.05154540763673906,
+      0.016371760288551942
+    ]
+  },
+  "model_summary": [
+    {
+      "model": "M0_Classical_Baseline",
+      "auroc_mean": 0.6394316774459887,
+      "auroc_std": 0.007470958966918699,
+      "auprc_mean": 0.6093010979254322,
+      "auprc_std": 0.014241732405636549,
+      "brier_mean": 0.24124086231687084,
+      "brier_std": 0.002360442119042736,
+      "ece_mean": 0.06316850385751543,
+      "ece_std": 0.004197332291185401
+    },
+    {
+      "model": "M1_QVBE4_No_Entangle",
+      "auroc_mean": 0.627436814825008,
+      "auroc_std": 0.01500587269600558,
+      "auprc_mean": 0.6129235498207269,
+      "auprc_std": 0.006233770565124279,
+      "brier_mean": 0.23888196430094358,
+      "brier_std": 0.004411790339385939,
+      "ece_mean": 0.0642460824399167,
+      "ece_std": 0.03726017079728623
+    },
+    {
+      "model": "M2_QVBE4_Pairwise_Entangled",
+      "auroc_mean": 0.6363813586532728,
+      "auroc_std": 0.01330646637630602,
+      "auprc_mean": 0.6266317085159688,
+      "auprc_std": 0.02210170689727944,
+      "brier_mean": 0.23633923102185875,
+      "brier_std": 0.002814213341468615,
+      "ece_mean": 0.04105663189586191,
+      "ece_std": 0.010759344461735277
+    },
+    {
+      "model": "M3_QVBE4_Improved_Edge_Conditioned",
+      "auroc_mean": 0.6308655566258429,
+      "auroc_std": 0.026022925519687757,
+      "auprc_mean": 0.6088013257058377,
+      "auprc_std": 0.03792018557449297,
+      "brier_mean": 0.24000594912356044,
+      "brier_std": 0.008353293356634726,
+      "ece_mean": 0.0638701644046041,
+      "ece_std": 0.022926969434538678
+    },
+    {
+      "model": "M4_QVBE4_Best_Time_Conditioned",
+      "auroc_mean": 0.6295926792348975,
+      "auroc_std": 0.012454364934000048,
+      "auprc_mean": 0.601552199441643,
+      "auprc_std": 0.020282367534360093,
+      "brier_mean": 0.23908239041066512,
+      "brier_std": 0.0036713151686494647,
+      "ece_mean": 0.05498802881844465,
+      "ece_std": 0.015918557177555113
+    },
+    {
+      "model": "M5_Strongest_Matched_Classical_Relational",
+      "auroc_mean": 0.6527452869134444,
+      "auroc_std": 0.0035238222175042566,
+      "auprc_mean": 0.6312244856118371,
+      "auprc_std": 0.011544035785501252,
+      "brier_mean": 0.23773469968032188,
+      "brier_std": 0.001636032210018909,
+      "ece_mean": 0.08064364310661705,
+      "ece_std": 0.004292463006923746
+    },
+    {
+      "model": "M6_Degree_Preserving_Shuffled_Control",
+      "auroc_mean": 0.6412091188477592,
+      "auroc_std": 0.005147722509954864,
+      "auprc_mean": 0.6318193087651246,
+      "auprc_std": 0.007496931664477045,
+      "brier_mean": 0.23521287568557428,
+      "brier_std": 0.001999501013559142,
+      "ece_mean": 0.037624976793458845,
+      "ece_std": 0.005586061648332522
+    }
+  ],
+  "timestamp": "2026-11-23 00:38:11",
+  "total_runtime_seconds": 612.5688531398773
+}

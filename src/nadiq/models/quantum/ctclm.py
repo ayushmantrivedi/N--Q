@@ -223,20 +223,23 @@ class ContinualTemporalClinicalLatentModel(nn.Module):
     def __init__(self, config: CTCLMConfig) -> None:
         super().__init__()
         self.config = config
-        torch.manual_seed(config.seed)
 
-        # Time encoder: scalar Δt → R^time_embedding_dim
-        self.time_encoder = _TimeEncoder(config.time_embedding_dim)
+        with torch.random.fork_rng():
+            if config.seed is not None:
+                torch.manual_seed(config.seed)
 
-        # GRU temporal model: [x ; time_emb] → hidden states
-        gru_dropout = config.dropout if config.num_layers > 1 else 0.0
-        self.gru = nn.GRU(
-            input_size=config.gru_input_dim,
-            hidden_size=config.latent_dim,
-            num_layers=config.num_layers,
-            batch_first=True,
-            dropout=gru_dropout,
-        )
+            # Time encoder: scalar Δt → R^time_embedding_dim
+            self.time_encoder = _TimeEncoder(config.time_embedding_dim)
+
+            # GRU temporal model: [x ; time_emb] → hidden states
+            gru_dropout = config.dropout if config.num_layers > 1 else 0.0
+            self.gru = nn.GRU(
+                input_size=config.gru_input_dim,
+                hidden_size=config.latent_dim,
+                num_layers=config.num_layers,
+                batch_first=True,
+                dropout=gru_dropout,
+            )
 
     # ------------------------------------------------------------------
     # Properties

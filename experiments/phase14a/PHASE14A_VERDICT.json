@@ -1,0 +1,512 @@
+{
+  "phase": "14A",
+  "benchmark_name": "Biological Relational Quantum Kernel (BRQK)",
+  "timestamp": "2026-11-23 14:22:51",
+  "verdict_code": "OUTCOME_D_RELATIONAL_INSUFFICIENT",
+  "verdict_summary": "Neither quantum nor classical relational representations demonstrated measurable advantage over standard classical baseline.",
+  "go_decision": "NO-GO",
+  "tasks": {
+    "T1_Cumulative_5Yr": {
+      "results": [
+        {
+          "task": "T1",
+          "model": "M0_Logistic_Regression",
+          "auroc": 0.5827,
+          "auprc": 0.5436,
+          "brier": 0.247,
+          "ece": 0.0363,
+          "sensitivity": 0.503,
+          "specificity": 0.6919,
+          "accuracy": 0.5982,
+          "optimal_threshold": 0.5311
+        },
+        {
+          "task": "T1",
+          "model": "M1_RBF_SVM",
+          "auroc": 0.5584,
+          "auprc": 0.539,
+          "brier": 0.248,
+          "ece": 0.0084,
+          "sensitivity": 0.6272,
+          "specificity": 0.5174,
+          "accuracy": 0.5718,
+          "optimal_threshold": 0.4881
+        },
+        {
+          "task": "T1",
+          "model": "M2_Poly_SVM",
+          "auroc": 0.5775,
+          "auprc": 0.5447,
+          "brier": 0.2466,
+          "ece": 0.0187,
+          "sensitivity": 0.6509,
+          "specificity": 0.4884,
+          "accuracy": 0.5689,
+          "optimal_threshold": 0.492
+        },
+        {
+          "task": "T1",
+          "model": "M3_Classical_Relational_Kernel",
+          "auroc": 0.4761,
+          "auprc": 0.4742,
+          "brier": 0.2535,
+          "ece": 0.0207,
+          "sensitivity": 0.5266,
+          "specificity": 0.5174,
+          "accuracy": 0.522,
+          "optimal_threshold": 0.4939
+        },
+        {
+          "task": "T1",
+          "model": "M4_Classical_Relational_Classifier",
+          "auroc": 0.5161,
+          "auprc": 0.5157,
+          "brier": 0.26,
+          "ece": 0.0629,
+          "sensitivity": 0.3136,
+          "specificity": 0.7674,
+          "accuracy": 0.5425,
+          "optimal_threshold": 0.5663
+        },
+        {
+          "task": "T1",
+          "model": "M5_Quantum_Relational_Kernel",
+          "auroc": 0.5586,
+          "auprc": 0.5682,
+          "brier": 0.2474,
+          "ece": 0.03,
+          "sensitivity": 0.5207,
+          "specificity": 0.6279,
+          "accuracy": 0.5748,
+          "optimal_threshold": 0.5009
+        },
+        {
+          "task": "T1",
+          "model": "M6_CTCLM_Baseline",
+          "auroc": 0.5475,
+          "auprc": 0.5299,
+          "brier": 0.2465,
+          "ece": 0.0423,
+          "sensitivity": 0.7101,
+          "specificity": 0.4244,
+          "accuracy": 0.566,
+          "optimal_threshold": 0.4874
+        },
+        {
+          "task": "T1",
+          "model": "M7_CTCLM_Classical_Relational_Hybrid",
+          "auroc": 0.5103,
+          "auprc": 0.5327,
+          "brier": 0.2971,
+          "ece": 0.2102,
+          "sensitivity": 0.2663,
+          "specificity": 0.8198,
+          "accuracy": 0.5455,
+          "optimal_threshold": 0.7104
+        },
+        {
+          "task": "T1",
+          "model": "M8_CTCLM_Quantum_Relational_Hybrid",
+          "auroc": 0.5817,
+          "auprc": 0.5807,
+          "brier": 0.2791,
+          "ece": 0.1897,
+          "sensitivity": 0.7515,
+          "specificity": 0.3953,
+          "accuracy": 0.5718,
+          "optimal_threshold": 0.3937
+        },
+        {
+          "task": "T1",
+          "model": "M9_Quantum_Shuffled_Topology",
+          "auroc": 0.4916,
+          "auprc": 0.4775,
+          "brier": 0.2506,
+          "ece": 0.0197,
+          "sensitivity": 0.7929,
+          "specificity": 0.2616,
+          "accuracy": 0.5249,
+          "optimal_threshold": 0.4856
+        },
+        {
+          "task": "T1",
+          "model": "M5_Ablation_No_Entanglement",
+          "auroc": 0.462,
+          "auprc": 0.4551,
+          "brier": 0.2518,
+          "ece": 0.03,
+          "sensitivity": 0.9645,
+          "specificity": 0.0756,
+          "accuracy": 0.5161,
+          "optimal_threshold": 0.465
+        }
+      ],
+      "bootstrap_comparisons": {
+        "M5_vs_M3_Quantum_vs_Classical_Relational": {
+          "model_a": "M5_Quantum_Relational_Kernel",
+          "model_b": "M3_Classical_Relational_Kernel",
+          "auroc_diff_mean": 0.0819,
+          "auroc_ci_95": [
+            -0.0046,
+            0.1692
+          ],
+          "auroc_p_superior": 0.968,
+          "auprc_diff_mean": 0.0911,
+          "auprc_ci_95": [
+            0.0144,
+            0.1642
+          ],
+          "auprc_p_superior": 0.9885
+        },
+        "M8_vs_M7_Hybrid_Quantum_vs_Classical": {
+          "model_a": "M8_CTCLM_Quantum_Relational_Hybrid",
+          "model_b": "M7_CTCLM_Classical_Relational_Hybrid",
+          "auroc_diff_mean": 0.0721,
+          "auroc_ci_95": [
+            -0.0077,
+            0.1489
+          ],
+          "auroc_p_superior": 0.963,
+          "auprc_diff_mean": 0.0471,
+          "auprc_ci_95": [
+            -0.0315,
+            0.1256
+          ],
+          "auprc_p_superior": 0.883
+        },
+        "M5_vs_M1_Quantum_vs_RBF_Baseline": {
+          "model_a": "M5_Quantum_Relational_Kernel",
+          "model_b": "M1_RBF_SVM",
+          "auroc_diff_mean": 0.0007,
+          "auroc_ci_95": [
+            -0.0849,
+            0.0882
+          ],
+          "auroc_p_superior": 0.5045,
+          "auprc_diff_mean": 0.0288,
+          "auprc_ci_95": [
+            -0.0524,
+            0.1075
+          ],
+          "auprc_p_superior": 0.755
+        },
+        "M5_vs_M9_Biological_vs_Shuffled_Topology": {
+          "model_a": "M5_Quantum_Relational_Kernel",
+          "model_b": "M9_Quantum_Shuffled_Topology",
+          "auroc_diff_mean": 0.0667,
+          "auroc_ci_95": [
+            -0.0228,
+            0.1513
+          ],
+          "auroc_p_superior": 0.9265,
+          "auprc_diff_mean": 0.0883,
+          "auprc_ci_95": [
+            0.0064,
+            0.164
+          ],
+          "auprc_p_superior": 0.9835
+        },
+        "M5_vs_NoEntangle_Entanglement_Contribution": {
+          "model_a": "M5_Quantum_Relational_Kernel",
+          "model_b": "M5_Ablation_No_Entanglement",
+          "auroc_diff_mean": 0.0972,
+          "auroc_ci_95": [
+            -0.0053,
+            0.1915
+          ],
+          "auroc_p_superior": 0.9685,
+          "auprc_diff_mean": 0.1116,
+          "auprc_ci_95": [
+            0.0284,
+            0.1881
+          ],
+          "auprc_p_superior": 0.9945
+        },
+        "M8_vs_M6_Hybrid_vs_CTCLM_Alone": {
+          "model_a": "M8_CTCLM_Quantum_Relational_Hybrid",
+          "model_b": "M6_CTCLM_Baseline",
+          "auroc_diff_mean": 0.0353,
+          "auroc_ci_95": [
+            -0.0451,
+            0.1133
+          ],
+          "auroc_p_superior": 0.804,
+          "auprc_diff_mean": 0.0493,
+          "auprc_ci_95": [
+            -0.0278,
+            0.1268
+          ],
+          "auprc_p_superior": 0.897
+        }
+      }
+    },
+    "T2_Future_Only_M12_to_M60": {
+      "results": [
+        {
+          "task": "T2",
+          "model": "M0_Logistic_Regression",
+          "auroc": 0.6366,
+          "auprc": 0.5879,
+          "brier": 0.2355,
+          "ece": 0.0327,
+          "sensitivity": 0.5535,
+          "specificity": 0.6648,
+          "accuracy": 0.6129,
+          "optimal_threshold": 0.4969
+        },
+        {
+          "task": "T2",
+          "model": "M1_RBF_SVM",
+          "auroc": 0.5241,
+          "auprc": 0.4715,
+          "brier": 0.2497,
+          "ece": 0.024,
+          "sensitivity": 0.6289,
+          "specificity": 0.467,
+          "accuracy": 0.5425,
+          "optimal_threshold": 0.4562
+        },
+        {
+          "task": "T2",
+          "model": "M2_Poly_SVM",
+          "auroc": 0.5728,
+          "auprc": 0.5197,
+          "brier": 0.2452,
+          "ece": 0.012,
+          "sensitivity": 0.8679,
+          "specificity": 0.2802,
+          "accuracy": 0.5543,
+          "optimal_threshold": 0.426
+        },
+        {
+          "task": "T2",
+          "model": "M3_Classical_Relational_Kernel",
+          "auroc": 0.465,
+          "auprc": 0.43,
+          "brier": 0.2502,
+          "ece": 0.0151,
+          "sensitivity": 0.8113,
+          "specificity": 0.2088,
+          "accuracy": 0.4897,
+          "optimal_threshold": 0.4563
+        },
+        {
+          "task": "T2",
+          "model": "M4_Classical_Relational_Classifier",
+          "auroc": 0.5935,
+          "auprc": 0.5313,
+          "brier": 0.2479,
+          "ece": 0.0589,
+          "sensitivity": 0.761,
+          "specificity": 0.4231,
+          "accuracy": 0.5806,
+          "optimal_threshold": 0.3989
+        },
+        {
+          "task": "T2",
+          "model": "M5_Quantum_Relational_Kernel",
+          "auroc": 0.4158,
+          "auprc": 0.4157,
+          "brier": 0.2513,
+          "ece": 0.0059,
+          "sensitivity": 0.0126,
+          "specificity": 0.9945,
+          "accuracy": 0.5367,
+          "optimal_threshold": 0.5143
+        },
+        {
+          "task": "T2",
+          "model": "M6_CTCLM_Baseline",
+          "auroc": 0.6131,
+          "auprc": 0.5589,
+          "brier": 0.2387,
+          "ece": 0.0192,
+          "sensitivity": 0.5597,
+          "specificity": 0.6429,
+          "accuracy": 0.6041,
+          "optimal_threshold": 0.4938
+        },
+        {
+          "task": "T2",
+          "model": "M7_CTCLM_Classical_Relational_Hybrid",
+          "auroc": 0.521,
+          "auprc": 0.4917,
+          "brier": 0.2833,
+          "ece": 0.1624,
+          "sensitivity": 0.5535,
+          "specificity": 0.522,
+          "accuracy": 0.5367,
+          "optimal_threshold": 0.4375
+        },
+        {
+          "task": "T2",
+          "model": "M8_CTCLM_Quantum_Relational_Hybrid",
+          "auroc": 0.5027,
+          "auprc": 0.4871,
+          "brier": 0.327,
+          "ece": 0.245,
+          "sensitivity": 0.1384,
+          "specificity": 0.9176,
+          "accuracy": 0.5543,
+          "optimal_threshold": 0.8708
+        },
+        {
+          "task": "T2",
+          "model": "M9_Quantum_Shuffled_Topology",
+          "auroc": 0.4972,
+          "auprc": 0.4609,
+          "brier": 0.2491,
+          "ece": 0.0007,
+          "sensitivity": 0.6478,
+          "specificity": 0.4011,
+          "accuracy": 0.5161,
+          "optimal_threshold": 0.4626
+        },
+        {
+          "task": "T2",
+          "model": "M5_Ablation_No_Entanglement",
+          "auroc": 0.5066,
+          "auprc": 0.4799,
+          "brier": 0.2503,
+          "ece": 0.0427,
+          "sensitivity": 0.5031,
+          "specificity": 0.5769,
+          "accuracy": 0.5425,
+          "optimal_threshold": 0.4737
+        }
+      ],
+      "bootstrap_comparisons": {
+        "M5_vs_M3_Quantum_vs_Classical_Relational": {
+          "model_a": "M5_Quantum_Relational_Kernel",
+          "model_b": "M3_Classical_Relational_Kernel",
+          "auroc_diff_mean": -0.0502,
+          "auroc_ci_95": [
+            -0.1347,
+            0.035
+          ],
+          "auroc_p_superior": 0.117,
+          "auprc_diff_mean": -0.0153,
+          "auprc_ci_95": [
+            -0.0713,
+            0.0417
+          ],
+          "auprc_p_superior": 0.2975
+        },
+        "M8_vs_M7_Hybrid_Quantum_vs_Classical": {
+          "model_a": "M8_CTCLM_Quantum_Relational_Hybrid",
+          "model_b": "M7_CTCLM_Classical_Relational_Hybrid",
+          "auroc_diff_mean": -0.0193,
+          "auroc_ci_95": [
+            -0.0888,
+            0.0467
+          ],
+          "auroc_p_superior": 0.303,
+          "auprc_diff_mean": -0.0058,
+          "auprc_ci_95": [
+            -0.0754,
+            0.0584
+          ],
+          "auprc_p_superior": 0.439
+        },
+        "M5_vs_M1_Quantum_vs_RBF_Baseline": {
+          "model_a": "M5_Quantum_Relational_Kernel",
+          "model_b": "M1_RBF_SVM",
+          "auroc_diff_mean": -0.1085,
+          "auroc_ci_95": [
+            -0.1985,
+            -0.021
+          ],
+          "auroc_p_superior": 0.01,
+          "auprc_diff_mean": -0.0577,
+          "auprc_ci_95": [
+            -0.1256,
+            0.0072
+          ],
+          "auprc_p_superior": 0.046
+        },
+        "M5_vs_M9_Biological_vs_Shuffled_Topology": {
+          "model_a": "M5_Quantum_Relational_Kernel",
+          "model_b": "M9_Quantum_Shuffled_Topology",
+          "auroc_diff_mean": -0.0811,
+          "auroc_ci_95": [
+            -0.1709,
+            0.0026
+          ],
+          "auroc_p_superior": 0.029,
+          "auprc_diff_mean": -0.0468,
+          "auprc_ci_95": [
+            -0.1134,
+            0.0171
+          ],
+          "auprc_p_superior": 0.0795
+        },
+        "M5_vs_NoEntangle_Entanglement_Contribution": {
+          "model_a": "M5_Quantum_Relational_Kernel",
+          "model_b": "M5_Ablation_No_Entanglement",
+          "auroc_diff_mean": -0.0914,
+          "auroc_ci_95": [
+            -0.1721,
+            -0.0092
+          ],
+          "auroc_p_superior": 0.0185,
+          "auprc_diff_mean": -0.0647,
+          "auprc_ci_95": [
+            -0.1282,
+            -0.0007
+          ],
+          "auprc_p_superior": 0.0235
+        },
+        "M8_vs_M6_Hybrid_vs_CTCLM_Alone": {
+          "model_a": "M8_CTCLM_Quantum_Relational_Hybrid",
+          "model_b": "M6_CTCLM_Baseline",
+          "auroc_diff_mean": -0.1112,
+          "auroc_ci_95": [
+            -0.1806,
+            -0.0392
+          ],
+          "auroc_p_superior": 0.001,
+          "auprc_diff_mean": -0.0718,
+          "auprc_ci_95": [
+            -0.1478,
+            0.0042
+          ],
+          "auprc_p_superior": 0.034
+        }
+      }
+    }
+  },
+  "finite_shot_profile": {
+    "exact_fidelity": 0.005884463123235754,
+    "evaluations": [
+      {
+        "shots": 512,
+        "exact_fidelity": 0.005884,
+        "estimated_fidelity": 0.001953,
+        "absolute_error": 0.003931,
+        "theoretical_std": 0.001951
+      },
+      {
+        "shots": 1024,
+        "exact_fidelity": 0.005884,
+        "estimated_fidelity": 0.006836,
+        "absolute_error": 0.000951,
+        "theoretical_std": 0.002575
+      },
+      {
+        "shots": 2048,
+        "exact_fidelity": 0.005884,
+        "estimated_fidelity": 0.006348,
+        "absolute_error": 0.000463,
+        "theoretical_std": 0.001755
+      },
+      {
+        "shots": 4096,
+        "exact_fidelity": 0.005884,
+        "estimated_fidelity": 0.006348,
+        "absolute_error": 0.000463,
+        "theoretical_std": 0.001241
+      }
+    ]
+  },
+  "total_runtime_seconds": 218.44
+}
