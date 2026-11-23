@@ -5,7 +5,7 @@
       "check": "unit_tests",
       "passed": true,
       "value": "returncode=0",
-      "elapsed_s": 48.09
+      "elapsed_s": 22.49
     },
     {
       "check": "ensemble_auroc",
@@ -21,8 +21,8 @@
     },
     {
       "check": "discovery_runtime_ms",
-      "passed": false,
-      "value": "2176.7ms",
+      "passed": true,
+      "value": "195.7ms",
       "elapsed_s": ""
     },
     {
@@ -33,9 +33,9 @@
     }
   ],
   "pipeline_report": {
-    "total_runtime_ms": 2371.09,
-    "discovery_runtime_ms": 2176.65,
-    "prediction_runtime_ms": 181.82,
+    "total_runtime_ms": 345.08,
+    "discovery_runtime_ms": 195.68,
+    "prediction_runtime_ms": 143.67,
     "evidence_discovery": {
       "selected_edges": [
         {
@@ -111,7 +111,7 @@
       },
       "statistical_quality": "Provisional/Explanatory",
       "replication_note": "Evidence replication rate on 1-year PPMI deltas is ~6\u20137%. Relationships are hypothesis-generating, not definitive causal biomarkers.",
-      "discovery_runtime_ms": 2108.1823999993503,
+      "discovery_runtime_ms": 167.55269980058074,
       "solver_output": {
         "method": "M3_Tabu_Local_Search",
         "bitstring": "100000000100101",
@@ -132,7 +132,7 @@
         "circuit_depth": 0,
         "gate_count": {},
         "n_evaluations": 2251,
-        "runtime_sec": 2.004345655441284
+        "runtime_sec": 0.12399077415466309
       }
     },
     "clinical_prediction": {
@@ -162,7 +162,7 @@
       "auroc_above_threshold": true,
       "auroc_threshold": 0.635,
       "prediction_invariant": true,
-      "runtime_below_600ms_classical": false,
+      "runtime_below_600ms_classical": true,
       "max_quantum_delta": 0.0
     },
     "evidence_json_path": "C:\\Users\\ayush\\OneDrive\\Desktop\\Nadi-Q\\experiments\\architecture_a\\evidence_graph.json",

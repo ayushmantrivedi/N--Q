@@ -70,6 +70,7 @@ scratch/
 *.tmp
 *.temp
 *.log
+*patient_prediction_output.json
 
 # ===== Operating System & IDE Caches =====
 .idea/

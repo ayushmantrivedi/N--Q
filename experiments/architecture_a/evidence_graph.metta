@@ -1,5 +1,5 @@
 ; NĀḌĪ-Q Architecture A — Evidence Graph (Provisional/Explanatory)
-; Generated: 2026-11-23T19:16:33.265554+00:00
+; Generated: 2026-11-23T20:08:11.699628+00:00
 ; Dataset: PPMI_N341
 ; Disclaimer: PROVISIONAL/EXPLANATORY ONLY. These relationships are discovered from PPMI 1-year multimodal correlations with an estimated replication rate of ~6–7% across 15 folds. They are hypothesis-generating candidate relationships, NOT definitive causal biomarkers. Do not use for clinical decision-making.
 

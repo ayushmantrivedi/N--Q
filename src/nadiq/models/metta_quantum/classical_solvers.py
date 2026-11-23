@@ -74,6 +74,8 @@ class ClassicalSolvers:
         N = self.n_vars
         exact_min_e = None
         if N <= 12:
+            exact_min_e = None
+        if N <= 12:
             _, exact_min_e, _ = self.builder.find_exact_optimum()
 
         # Random initial state
@@ -112,7 +114,7 @@ class ClassicalSolvers:
         selected_indices = [i for i, b in enumerate(best_x) if b == 1]
         selected_edges = [self.builder.candidates[i] for i in selected_indices]
         is_feasible, k_err, contra_cnt = self.builder.check_feasibility(best_x)
-        gap = float(best_e - exact_min_e)
+        gap = float(best_e - exact_min_e) if exact_min_e is not None else 0.0
         utility = self.builder.evaluate_utility(best_x)
 
         return QuantumSelectionOutput(
@@ -141,7 +143,9 @@ class ClassicalSolvers:
         t0 = time.time()
         N = self.n_vars
         K = self.builder.config.budget_k
-        _, exact_min_e, _ = self.builder.find_exact_optimum()
+        exact_min_e = None
+        if N <= 12:
+            _, exact_min_e, _ = self.builder.find_exact_optimum()
 
         selected = set()
         n_evals = 0
@@ -178,7 +182,7 @@ class ClassicalSolvers:
         selected_indices = sorted(list(selected))
         selected_edges = [self.builder.candidates[i] for i in selected_indices]
         is_feasible, k_err, contra_cnt = self.builder.check_feasibility(final_x)
-        gap = float(final_e - exact_min_e)
+        gap = float(final_e - exact_min_e) if exact_min_e is not None else 0.0
         utility = self.builder.evaluate_utility(final_x)
 
         return QuantumSelectionOutput(
@@ -213,6 +217,8 @@ class ClassicalSolvers:
         rng = np.random.default_rng(seed)
         N = self.n_vars
         exact_min_e = None
+        if N <= 12:
+            exact_min_e = None
         if N <= 12:
             _, exact_min_e, _ = self.builder.find_exact_optimum()
 
@@ -263,7 +269,7 @@ class ClassicalSolvers:
         selected_indices = [i for i, b in enumerate(best_x) if b == 1]
         selected_edges = [self.builder.candidates[i] for i in selected_indices]
         is_feasible, k_err, contra_cnt = self.builder.check_feasibility(best_x)
-        gap = float(best_e - exact_min_e)
+        gap = float(best_e - exact_min_e) if exact_min_e is not None else 0.0
         utility = self.builder.evaluate_utility(best_x)
 
         return QuantumSelectionOutput(

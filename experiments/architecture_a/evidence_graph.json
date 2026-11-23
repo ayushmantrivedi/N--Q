@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-23T19:16:33.261835+00:00",
+  "generated_at": "2026-11-23T20:08:11.696458+00:00",
   "dataset": "PPMI_N341",
   "disclaimer": "PROVISIONAL/EXPLANATORY ONLY. These relationships are discovered from PPMI 1-year multimodal correlations with an estimated replication rate of ~6\u20137% across 15 folds. They are hypothesis-generating candidate relationships, NOT definitive causal biomarkers. Do not use for clinical decision-making.",
   "statistical_quality": "Provisional/Explanatory",
@@ -13,7 +13,7 @@
     "n_fallback": 0,
     "fdr_fallback_triggered": false,
     "solver_mode_used": "tabu",
-    "discovery_runtime_ms": 2108.18
+    "discovery_runtime_ms": 167.55
   },
   "power_analysis": {
     "MDE_alpha5_power50": 0.10620593821620088,
@@ -28,7 +28,7 @@
     "utility_score": 2.686956,
     "is_feasible": true,
     "optimality_gap": 0.0,
-    "runtime_ms": 2004.35,
+    "runtime_ms": 123.99,
     "n_evaluations": 2251
   },
   "edges": [

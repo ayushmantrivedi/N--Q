@@ -1,0 +1,22 @@
+{
+  "task": "T2",
+  "seeds": [
+    42,
+    123,
+    456
+  ],
+  "n_folds": 5,
+  "seed_aurocs": [
+    0.6353,
+    0.6399,
+    0.6283
+  ],
+  "mean_auroc": 0.6345,
+  "std_auroc": 0.0048,
+  "ensemble_auroc": 0.6366,
+  "ensemble_auprc": 0.5879,
+  "ensemble_brier": 0.2355,
+  "max_quantum_delta": 0.0,
+  "evidence_graph_path": "experiments/architecture_a/evidence_graph.json",
+  "quantum_invariant": true
+}
