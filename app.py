@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+import threading
 import time
 from typing import Any, Dict, List
 
@@ -101,12 +102,102 @@ EDGE_INTERPRETATIONS: Dict[tuple, str] = {
 
 PRETRAINED_CKPT_PATH = os.path.join("experiments", "phase12_2", "best_qvbe_pretrained.pt")
 DEFAULT_GRAPH_PATH = os.path.join("experiments", "architecture_a", "evidence_graph.json")
+QUANTUM_LOCK = threading.Lock()
 
 
 def normalize_val(val: float, key: str) -> float:
     """Normalize raw clinical measurement using PPMI reference statistics."""
     ref = PPMI_REF_STATS[key]
     return float((val - ref["mean"]) / ref["std"])
+
+
+@st.cache_data(show_spinner=False)
+def run_patient_inference(
+    asyn: float,
+    ptau: float,
+    caudate: float,
+    putamen: float,
+    motor: float,
+    subscore: float,
+) -> Dict[str, Any]:
+    """Thread-safe, cached hybrid quantum-classical inference for a patient profile."""
+    model = get_model()
+    edges = get_evidence_graph_edges()
+
+    z_scores = {
+        "asyn": normalize_val(asyn, "asyn"),
+        "ptau": normalize_val(ptau, "ptau"),
+        "caudate": normalize_val(caudate, "caudate"),
+        "putamen": normalize_val(putamen, "putamen"),
+        "motor_total": normalize_val(motor, "motor_total"),
+        "motor_subscore": normalize_val(subscore, "motor_subscore"),
+    }
+
+    node_inputs = {
+        "molecular": (torch.tensor([[z_scores["asyn"]]], dtype=torch.float32), torch.tensor([[z_scores["ptau"]]], dtype=torch.float32)),
+        "structural": (torch.tensor([[z_scores["caudate"]]], dtype=torch.float32), torch.tensor([[z_scores["putamen"]]], dtype=torch.float32)),
+        "functional": (torch.tensor([[z_scores["motor_total"]]], dtype=torch.float32), torch.tensor([[z_scores["motor_subscore"]]], dtype=torch.float32)),
+    }
+    ctclm_seq = torch.tensor([[[z_scores["motor_total"]], [z_scores["motor_total"] + z_scores["motor_subscore"]]]], dtype=torch.float32)
+    ctclm_times = torch.tensor([[0.0, 1.0]], dtype=torch.float32)
+    ctclm_mask = torch.tensor([[True, True]], dtype=torch.bool)
+
+    with QUANTUM_LOCK:
+        with torch.no_grad():
+            t0 = time.perf_counter()
+            out = model(node_inputs, edges, ctclm_seq, ctclm_times, ctclm_mask)
+            explainer = NadiQXAIExplainer(model)
+            exp = explainer.explain_prediction(node_inputs, edges, ctclm_seq, ctclm_times, ctclm_mask)
+            infer_ms = (time.perf_counter() - t0) * 1000.0
+
+    return {
+        "prob": float(out.probabilities.item()),
+        "gate_q": float(out.quantum_gate_weight.item()),
+        "gate_t": float(out.temporal_gate_weight.item()),
+        "gate_n": float(out.node_gate_weight.item()),
+        "delta_q": float(exp.quantum_attribution.item()),
+        "delta_t": float(exp.temporal_attribution.item()),
+        "infer_ms": infer_ms,
+        "z_scores": z_scores,
+    }
+
+
+@st.cache_data(show_spinner=False)
+def run_discovery_cached(
+    solver_mode: str,
+    budget_k: int,
+    alpha_validated: float,
+) -> Dict[str, Any]:
+    """Thread-safe, cached biological network discovery over PPMI cohort."""
+    X_raw, _, _ = load_ppmi_cohort()
+    if X_raw is None:
+        return {"edges": [], "solver_mode_used": solver_mode, "elapsed_ms": 0.0}
+
+    with QUANTUM_LOCK:
+        t0 = time.perf_counter()
+        pipeline = EvidenceDiscoveryPipeline(
+            solver_mode=solver_mode,
+            budget_k=budget_k,
+            alpha_validated=alpha_validated,
+        )
+        disc_res = pipeline.run(X_raw)
+        elapsed_ms = (time.perf_counter() - t0) * 1000.0
+
+    edges_dicts = [
+        {
+            "src": e.src,
+            "dst": e.dst,
+            "effect_r": float(e.effect_r),
+            "p_val": float(e.p_val),
+            "status": str(e.status),
+        }
+        for e in disc_res.selected_edges
+    ]
+    return {
+        "edges": edges_dicts,
+        "solver_mode_used": disc_res.solver_mode_used,
+        "elapsed_ms": elapsed_ms,
+    }
 
 
 # -----------------------------------------------------------------------------
@@ -527,41 +618,32 @@ def main():
         with col_right:
             st.markdown("#### 2. 5-Year Progression Forecast & Quantum-Classical Analysis")
 
-            model = get_model()
-            edges = get_evidence_graph_edges()
+            try:
+                inf = run_patient_inference(
+                    round(float(in_asyn), 4),
+                    round(float(in_ptau), 4),
+                    round(float(in_caudate), 4),
+                    round(float(in_putamen), 4),
+                    round(float(in_motor), 4),
+                    round(float(in_subscore), 4),
+                )
+            except Exception as exc:
+                st.error(f"Inference error: {exc}")
+                inf = None
 
-            z_scores = {
-                "asyn": normalize_val(in_asyn, "asyn"),
-                "ptau": normalize_val(in_ptau, "ptau"),
-                "caudate": normalize_val(in_caudate, "caudate"),
-                "putamen": normalize_val(in_putamen, "putamen"),
-                "motor_total": normalize_val(in_motor, "motor_total"),
-                "motor_subscore": normalize_val(in_subscore, "motor_subscore"),
-            }
-
-            node_inputs = {
-                "molecular": (torch.tensor([[z_scores["asyn"]]], dtype=torch.float32), torch.tensor([[z_scores["ptau"]]], dtype=torch.float32)),
-                "structural": (torch.tensor([[z_scores["caudate"]]], dtype=torch.float32), torch.tensor([[z_scores["putamen"]]], dtype=torch.float32)),
-                "functional": (torch.tensor([[z_scores["motor_total"]]], dtype=torch.float32), torch.tensor([[z_scores["motor_subscore"]]], dtype=torch.float32)),
-            }
-            ctclm_seq = torch.tensor([[[z_scores["motor_total"]], [z_scores["motor_total"] + z_scores["motor_subscore"]]]], dtype=torch.float32)
-            ctclm_times = torch.tensor([[0.0, 1.0]], dtype=torch.float32)
-            ctclm_mask = torch.tensor([[True, True]], dtype=torch.bool)
-
-            with torch.no_grad():
-                t0 = time.perf_counter()
-                out = model(node_inputs, edges, ctclm_seq, ctclm_times, ctclm_mask)
-                explainer = NadiQXAIExplainer(model)
-                exp = explainer.explain_prediction(node_inputs, edges, ctclm_seq, ctclm_times, ctclm_mask)
-                infer_ms = (time.perf_counter() - t0) * 1000.0
-
-            prob = float(out.probabilities.item())
-            prob_pct = prob * 100.0
-            gate_q = float(out.quantum_gate_weight.item())
-            gate_t = float(out.temporal_gate_weight.item())
-            gate_n = float(out.node_gate_weight.item())
-            delta_q = float(exp.quantum_attribution.item())
-            delta_t = float(exp.temporal_attribution.item())
+            if inf is not None:
+                z_scores = inf["z_scores"]
+                prob = inf["prob"]
+                prob_pct = prob * 100.0
+                gate_q = inf["gate_q"]
+                gate_t = inf["gate_t"]
+                gate_n = inf["gate_n"]
+                delta_q = inf["delta_q"]
+                delta_t = inf["delta_t"]
+                infer_ms = inf["infer_ms"]
+            else:
+                z_scores = {k: 0.0 for k in PPMI_REF_STATS}
+                prob, prob_pct, gate_q, gate_t, gate_n, delta_q, delta_t, infer_ms = 0.5, 50.0, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0
 
             # Top Forecast Card + Gauge
             v_col1, v_col2 = st.columns([0.45, 0.55])
@@ -709,14 +791,18 @@ def main():
             st.info("**How to read the graph:**\n- **Blue edges** indicate positive co-movement.\n- **Red edges** indicate inverse atrophy-to-deficit links (e.g., smaller Putamen volume → higher Motor impairment).\n- Edge thickness scales with correlation strength $|r|$.")
 
         with graph_col:
-            if run_disc_btn and X_raw is not None:
+            if run_disc_btn:
                 with st.spinner("Compiling MeTTa constraints & solving QUBO..."):
-                    t_d0 = time.perf_counter()
-                    pipeline = EvidenceDiscoveryPipeline(solver_mode=mode_val, budget_k=sel_k, alpha_validated=sel_alpha)
-                    disc_res = pipeline.run(X_raw)
-                    disc_ms = (time.perf_counter() - t_d0) * 1000.0
-                st.success(f"Solved in **{disc_ms:.1f} ms** using `{disc_res.solver_mode_used}`.")
-                selected_edges_list = disc_res.selected_edges
+                    try:
+                        disc_out = run_discovery_cached(mode_val, sel_k, float(sel_alpha))
+                        st.session_state["disc_result"] = disc_out
+                    except Exception as exc:
+                        st.error(f"Discovery error: {exc}")
+
+            if "disc_result" in st.session_state and st.session_state["disc_result"].get("edges"):
+                disc_out = st.session_state["disc_result"]
+                st.success(f"Solved in **{disc_out['elapsed_ms']:.1f} ms** using `{disc_out['solver_mode_used']}`.")
+                selected_edges_list = disc_out["edges"]
             else:
                 selected_edges_list = []
                 if os.path.exists(DEFAULT_GRAPH_PATH):
