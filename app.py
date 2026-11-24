@@ -35,12 +35,12 @@ from nadiq.experiments.phase14a.data_protocol import DataProtocol14A
 # Reference Statistics, Human-Readable Labels & Normalization Utilities
 # -----------------------------------------------------------------------------
 PPMI_REF_STATS: Dict[str, Dict[str, float]] = {
-    "asyn": {"mean": 1820.0, "std": 750.0},
-    "ptau": {"mean": 15.5, "std": 6.2},
-    "caudate": {"mean": 3050.0, "std": 520.0},
-    "putamen": {"mean": 3950.0, "std": 630.0},
-    "motor_total": {"mean": 21.8, "std": 9.5},
-    "motor_subscore": {"mean": 2.2, "std": 3.8},
+    "asyn": {"mean": 1447.31, "std": 604.56},
+    "ptau": {"mean": 14.34, "std": 4.94},
+    "caudate": {"mean": 0.781, "std": 0.271},
+    "putamen": {"mean": 0.652, "std": 0.236},
+    "motor_total": {"mean": 23.39, "std": 10.62},
+    "motor_subscore": {"mean": 2.15, "std": 8.81},
 }
 
 FEATURE_META: Dict[str, Dict[str, Any]] = {
@@ -59,18 +59,18 @@ FEATURE_META: Dict[str, Dict[str, Any]] = {
         "unit": "pg/mL",
     },
     "caudate": {
-        "label": "Bilateral Caudate",
-        "modality": "Structural MRI",
+        "label": "Caudate (DaTscan SBR)",
+        "modality": "Structural Neuroimaging",
         "color": "#0EA5E9",
         "pos": (1.0, 0.78),
-        "unit": "mm³",
+        "unit": "SBR",
     },
     "putamen": {
-        "label": "Bilateral Putamen",
-        "modality": "Structural MRI",
+        "label": "Putamen (DaTscan SBR)",
+        "modality": "Structural Neuroimaging",
         "color": "#0EA5E9",
         "pos": (1.0, 0.22),
-        "unit": "mm³",
+        "unit": "SBR",
     },
     "motor_total": {
         "label": "UPDRS-III Total",
@@ -478,51 +478,51 @@ def main():
             )
 
             if preset == "Demo Patient A (Intermediate / Moderate Risk)":
-                def_asyn, def_ptau = 1380.0, 19.5
-                def_caudate, def_putamen = 2750.0, 3450.0
-                def_motor, def_subscore = 28.0, 5.0
+                def_asyn, def_ptau = 1380.0, 15.5
+                def_caudate, def_putamen = 0.72, 0.58
+                def_motor, def_subscore = 26.0, 3.5
                 patient_id_label = "DEMO_MODERATE_01"
             elif preset == "Demo Patient B (High-Risk Rapid Progressor)":
-                def_asyn, def_ptau = 980.0, 26.0
-                def_caudate, def_putamen = 2150.0, 2750.0
-                def_motor, def_subscore = 38.0, 9.5
+                def_asyn, def_ptau = 920.0, 24.5
+                def_caudate, def_putamen = 0.35, 0.28
+                def_motor, def_subscore = 38.0, 12.0
                 patient_id_label = "DEMO_HIGH_RISK_02"
             elif preset == "Demo Patient C (Low-Risk Stable Profile)":
-                def_asyn, def_ptau = 2250.0, 11.2
-                def_caudate, def_putamen = 3450.0, 4350.0
-                def_motor, def_subscore = 14.0, -1.0
+                def_asyn, def_ptau = 2150.0, 10.5
+                def_caudate, def_putamen = 1.25, 1.15
+                def_motor, def_subscore = 12.0, -2.0
                 patient_id_label = "DEMO_LOW_RISK_03"
             elif preset == "Real PPMI Study Participant (N=341)" and pats:
-                pat_choice = st.selectbox("Select PPMI Participant ID", pats[:60], index=0)
+                pat_choice = st.selectbox("Select PPMI Participant ID", pats, index=0)
                 p_idx = pats.index(pat_choice)
                 row = X_raw[p_idx]
-                def_asyn = float(row[0]) if not np.isnan(row[0]) else 1820.0
-                def_ptau = float(row[1]) if not np.isnan(row[1]) else 15.5
-                def_caudate = float(row[2]) if not np.isnan(row[2]) else 3050.0
-                def_putamen = float(row[3]) if not np.isnan(row[3]) else 3950.0
-                def_motor = float(row[4]) if not np.isnan(row[4]) else 21.8
-                def_subscore = float(row[5]) if not np.isnan(row[5]) else 2.2
+                def_asyn = float(row[0]) if not np.isnan(row[0]) else PPMI_REF_STATS["asyn"]["mean"]
+                def_ptau = float(row[1]) if not np.isnan(row[1]) else PPMI_REF_STATS["ptau"]["mean"]
+                def_caudate = float(row[2]) if not np.isnan(row[2]) else PPMI_REF_STATS["caudate"]["mean"]
+                def_putamen = float(row[3]) if not np.isnan(row[3]) else PPMI_REF_STATS["putamen"]["mean"]
+                def_motor = float(row[4]) if not np.isnan(row[4]) else PPMI_REF_STATS["motor_total"]["mean"]
+                def_subscore = float(row[5]) if not np.isnan(row[5]) else PPMI_REF_STATS["motor_subscore"]["mean"]
                 patient_id_label = f"PPMI_{pat_choice}"
             else:
-                def_asyn, def_ptau = 1600.0, 16.0
-                def_caudate, def_putamen = 2950.0, 3800.0
-                def_motor, def_subscore = 24.0, 3.0
+                def_asyn, def_ptau = 1450.0, 14.3
+                def_caudate, def_putamen = 0.78, 0.65
+                def_motor, def_subscore = 23.4, 2.2
                 patient_id_label = "CUSTOM_PATIENT"
 
             with st.container(border=True):
                 st.markdown("**🧪 CSF Molecular Biomarkers**")
-                in_asyn = st.number_input("α-Synuclein (pg/mL) — *Normal: ~1820*", min_value=200.0, max_value=5000.0, value=float(def_asyn), step=25.0)
-                in_ptau = st.number_input("phospho-Tau181 (pg/mL) — *Normal: ~15.5*", min_value=1.0, max_value=80.0, value=float(def_ptau), step=0.5)
+                in_asyn = st.number_input("α-Synuclein (pg/mL) — *Avg: ~1447*", min_value=100.0, max_value=6000.0, value=float(np.clip(def_asyn, 100.0, 6000.0)), step=25.0)
+                in_ptau = st.number_input("phospho-Tau181 (pg/mL) — *Avg: ~14.3*", min_value=1.0, max_value=80.0, value=float(np.clip(def_ptau, 1.0, 80.0)), step=0.5)
 
             with st.container(border=True):
-                st.markdown("**🧠 Structural Neuro-MRI**")
-                in_caudate = st.number_input("Bilateral Caudate (mm³) — *Normal: ~3050*", min_value=1000.0, max_value=6000.0, value=float(def_caudate), step=50.0)
-                in_putamen = st.number_input("Bilateral Putamen (mm³) — *Normal: ~3950*", min_value=1000.0, max_value=7000.0, value=float(def_putamen), step=50.0)
+                st.markdown("**🧠 Neuroimaging (DaTscan Striatal Binding Ratio)**")
+                in_caudate = st.number_input("Caudate SBR — *Avg: ~0.78*", min_value=0.0, max_value=5.0, value=float(np.clip(def_caudate, 0.0, 5.0)), step=0.05)
+                in_putamen = st.number_input("Putamen SBR — *Avg: ~0.65*", min_value=0.0, max_value=5.0, value=float(np.clip(def_putamen, 0.0, 5.0)), step=0.05)
 
             with st.container(border=True):
                 st.markdown("**🏃 Clinical Motor Exam (UPDRS-III)**")
-                in_motor = st.number_input("Baseline Motor Score — *Cohort Avg: ~21.8*", min_value=0.0, max_value=108.0, value=float(def_motor), step=1.0)
-                in_subscore = st.number_input("1-Yr Motor Delta (pts/yr) — *Cohort Avg: +2.2*", min_value=-15.0, max_value=30.0, value=float(def_subscore), step=0.5)
+                in_motor = st.number_input("Baseline Motor Score — *Avg: ~23.4*", min_value=0.0, max_value=108.0, value=float(np.clip(def_motor, 0.0, 108.0)), step=1.0)
+                in_subscore = st.number_input("1-Yr Motor Delta (pts/yr) — *Avg: +2.1*", min_value=-40.0, max_value=50.0, value=float(np.clip(def_subscore, -40.0, 50.0)), step=0.5)
 
         with col_right:
             st.markdown("#### 2. 5-Year Progression Forecast & Quantum-Classical Analysis")

@@ -1,11 +1,14 @@
 """
-Tests for Streamlit application components, Plotly graph builders, and utility functions.
+Comprehensive unit and end-to-end Streamlit AppTest integration tests for app.py.
+Tests every preset, all 341 real PPMI participants, all tabs, and all discovery solvers.
 """
 
 from __future__ import annotations
 
+import numpy as np
 import plotly.graph_objects as go
 import pytest
+from streamlit.testing.v1 import AppTest
 
 from app import (
     PPMI_REF_STATS,
@@ -15,6 +18,7 @@ from app import (
     get_clinical_interpretation,
     get_model,
     get_evidence_graph_edges,
+    load_ppmi_cohort,
     normalize_val,
 )
 
@@ -63,10 +67,74 @@ def test_build_evidence_network_figure():
     ]
     fig = build_evidence_network_figure(sample_edges)
     assert isinstance(fig, go.Figure)
-    assert len(fig.data) >= 6  # edges + labels + 6 nodes
+    assert len(fig.data) >= 6
 
 
 def test_get_clinical_interpretation():
     desc = get_clinical_interpretation("putamen", "motor_total", -0.175)
     assert isinstance(desc, str)
     assert len(desc) > 10
+
+
+def test_all_341_ppmi_participants_within_ui_bounds():
+    """Verify every single PPMI participant fits inside the UI number_input bounds."""
+    X_raw, y, pats = load_ppmi_cohort()
+    assert X_raw is not None
+    assert len(pats) == 341
+
+    bounds = [
+        (100.0, 6000.0),   # asyn
+        (1.0, 80.0),       # ptau
+        (0.0, 5.0),        # caudate SBR
+        (0.0, 5.0),        # putamen SBR
+        (0.0, 108.0),      # motor_total
+        (-40.0, 50.0),     # motor_subscore
+    ]
+    for col_idx, (lo, hi) in enumerate(bounds):
+        col = X_raw[:, col_idx]
+        valid = col[~np.isnan(col)]
+        assert np.all(valid >= lo), f"col {col_idx} has value {valid.min()} < {lo}"
+        assert np.all(valid <= hi), f"col {col_idx} has value {valid.max()} > {hi}"
+
+
+def test_apptest_initial_render_and_all_presets():
+    """End-to-end Streamlit AppTest: render initial page and switch through every preset."""
+    at = AppTest.from_file("app.py", default_timeout=30)
+    at.run()
+    assert not at.exception, f"Initial render failed: {at.exception}"
+    assert len(at.number_input) == 6
+
+    presets = [
+        "Demo Patient B (High-Risk Rapid Progressor)",
+        "Demo Patient C (Low-Risk Stable Profile)",
+        "Custom Clinical Entry",
+        "Real PPMI Study Participant (N=341)",
+    ]
+    for p in presets:
+        at.selectbox[0].set_value(p).run()
+        assert not at.exception, f"Preset '{p}' failed: {at.exception}"
+
+    # Verify selecting different real PPMI participants (including index 0, 10, 100, 340)
+    pat_options = at.selectbox[1].options
+    assert len(pat_options) == 341
+    for idx in [0, 10, 100, 340]:
+        at.selectbox[1].set_value(pat_options[idx]).run()
+        assert not at.exception, f"PPMI participant idx {idx} ({pat_options[idx]}) failed: {at.exception}"
+
+
+def test_apptest_discovery_tab_solvers():
+    """End-to-end Streamlit AppTest: run network discovery with Tabu and Exact solvers."""
+    at = AppTest.from_file("app.py", default_timeout=30)
+    at.run()
+    assert not at.exception
+
+    # Click Run Network Discovery with default Classical Tabu Search
+    at.button[0].click().run()
+    assert not at.exception, f"Tabu discovery failed: {at.exception}"
+    assert len(at.success) >= 1
+
+    # Switch to Exact Global Search and run
+    at.selectbox[1].set_value("Exact Global Search").run()
+    assert not at.exception
+    at.button[0].click().run()
+    assert not at.exception, f"Exact discovery failed: {at.exception}"

@@ -55,12 +55,12 @@ from nadiq.experiments.phase14a.data_protocol import DataProtocol14A
 
 # Authoritative population reference values for z-score normalization (from PPMI cohort)
 PPMI_REF_STATS = {
-    "asyn": {"mean": 1820.0, "std": 750.0},
-    "ptau": {"mean": 15.5, "std": 6.2},
-    "caudate": {"mean": 3050.0, "std": 520.0},
-    "putamen": {"mean": 3950.0, "std": 630.0},
-    "motor_total": {"mean": 21.8, "std": 9.5},
-    "motor_subscore": {"mean": 2.2, "std": 3.8},
+    "asyn": {"mean": 1447.31, "std": 604.56},
+    "ptau": {"mean": 14.34, "std": 4.94},
+    "caudate": {"mean": 0.781, "std": 0.271},
+    "putamen": {"mean": 0.652, "std": 0.236},
+    "motor_total": {"mean": 23.39, "std": 10.62},
+    "motor_subscore": {"mean": 2.15, "std": 8.81},
 }
 
 PRETRAINED_CKPT_PATH = os.path.join("experiments", "phase12_2", "best_qvbe_pretrained.pt")
@@ -264,7 +264,7 @@ def print_report_card(res: Dict[str, Any]) -> None:
     print("-" * 70)
     print(" 1. INPUT CLINICAL & BIOLOGICAL MEASUREMENTS:")
     print(f"    • Molecular Biomarkers : CSF α-syn={inp['biomarkers']['asyn_pg_ml']:.1f} pg/mL | p-Tau181={inp['biomarkers']['ptau_pg_ml']:.1f} pg/mL")
-    print(f"    • Structural Neuro-MRI : Caudate={inp['mri']['caudate_vol']:.0f} mm³ | Putamen={inp['mri']['putamen_vol']:.0f} mm³")
+    print(f"    • Structural Neuro-MRI : Caudate={inp['mri']['caudate_vol']:.2f} SBR | Putamen={inp['mri']['putamen_vol']:.2f} SBR")
     print(f"    • Motor Function (UPDRS): Baseline Score={inp['motor']['updrs3_baseline']:.1f} | 1-Yr Delta={inp['motor']['early_rate_delta']:+.1f}")
     print("-" * 70)
     print(" 2. HYBRID PREDICTION VERDICT:")
@@ -292,12 +292,12 @@ def main() -> None:
     parser.add_argument("--demo", action="store_true", help="Run with a representative high-risk patient profile.")
     parser.add_argument("--patno", type=str, default=None, help="PPMI Participant PATNO to pull directly from cohort.")
     parser.add_argument("--input_json", type=str, default=None, help="Path to input patient JSON report.")
-    parser.add_argument("--asyn", type=float, default=1450.0, help="CSF α-synuclein (pg/mL).")
-    parser.add_argument("--ptau", type=float, default=18.5, help="CSF phospho-Tau181 (pg/mL).")
-    parser.add_argument("--caudate", type=float, default=2850.0, help="Bilateral Caudate volume/intensity.")
-    parser.add_argument("--putamen", type=float, default=3600.0, help="Bilateral Putamen volume/intensity.")
-    parser.add_argument("--motor_total", type=float, default=26.0, help="MDS-UPDRS Part III Baseline Total.")
-    parser.add_argument("--motor_subscore", type=float, default=4.5, help="1-Year Early Motor Rate Delta.")
+    parser.add_argument("--asyn", type=float, default=1447.0, help="CSF α-synuclein (pg/mL).")
+    parser.add_argument("--ptau", type=float, default=14.3, help="CSF phospho-Tau181 (pg/mL).")
+    parser.add_argument("--caudate", type=float, default=0.78, help="Caudate DaTscan Striatal Binding Ratio (SBR).")
+    parser.add_argument("--putamen", type=float, default=0.65, help="Putamen DaTscan Striatal Binding Ratio (SBR).")
+    parser.add_argument("--motor_total", type=float, default=23.4, help="MDS-UPDRS Part III Baseline Total.")
+    parser.add_argument("--motor_subscore", type=float, default=2.2, help="1-Year Early Motor Rate Delta.")
     parser.add_argument("--output_json", type=str, default="experiments/patient_prediction_output.json", help="Path to save output JSON.")
     args = parser.parse_args()
 
@@ -306,9 +306,9 @@ def main() -> None:
     # Option A: Demo Profile
     if args.demo:
         patient_id = "DEMO_PATIENT_PROG_01"
-        asyn, ptau = 1380.0, 19.2
-        caudate, putamen = 2750.0, 3450.0
-        motor_total, motor_subscore = 28.0, 5.0
+        asyn, ptau = 1380.0, 15.5
+        caudate, putamen = 0.72, 0.58
+        motor_total, motor_subscore = 26.0, 3.5
 
     # Option B: Input JSON
     elif args.input_json and os.path.exists(args.input_json):
