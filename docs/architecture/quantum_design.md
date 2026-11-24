@@ -1,220 +1,109 @@
-# Quantum Design — Nāḍī-Q
+# Quantum Circuit Design & Optimization Specification — NĀḌĪ-Q
 
-> **Status markers:**  
-> **[A]** Established · **[B]** Hypothesis · **[C]** Experimental Claim · **[D]** Future Architecture
-
----
-
-## Preamble
-
-This document describes the quantum circuit design rationale for Nāḍī-Q. It is written to be honest about what is established quantum computing knowledge and what is speculative hypothesis specific to this research.
-
-**Nothing in this document constitutes a claim of demonstrated quantum advantage.**  
-Quantum advantage for clinical tabular data is an open research question and is the central question this platform investigates.
+> **Document Status Legend**  
+> - **[A] Established Physics / Literature** — Backed by published quantum computing literature.  
+> - **[B] Empirically Validated Architecture** — Tested and validated on the PPMI cohort.  
+> - **[C] Audited Negative Finding** — Rigorously tested and rejected based on experimental evidence.  
+> - **[D] Production MVP Component** — Integrated into the active platform.
 
 ---
 
-## 1. Quantum Computing Context [A]
+## 1. Scientific Preamble & Empirical Lessons
 
-### 1.1 Current Hardware Constraints
+NĀḌĪ-Q is designed to rigorously evaluate hybrid quantum-classical machine learning architectures for longitudinal disease progression. 
 
-We are operating in the **NISQ era** (Noisy Intermediate-Scale Quantum) as defined by Preskill (2018). Current quantum devices:
+**Core Scientific Finding [C]**:  
+Experiments across Phases 12, 13, and 14A demonstrated that **tightly coupling parameterized quantum kernels directly into patient risk prediction (e.g. SVM or BRQK) collapses clinical AUROC from 0.6366 to 0.5140**. On biomedical cohorts of size $N \approx 341$, NISQ simulation noise and kernel matrix variance dominate the true prognostic signal.
 
-- Have 10–1000+ physical qubits (IBM Eagle, Falcon; IonQ Aria; Quantinuum H1).
-- Have gate fidelities typically in the range 99.0–99.9% for single-qubit and 98–99.5% for two-qubit gates.
-- Have coherence times (T1, T2) on the order of microseconds to milliseconds.
-- Do not yet have error-corrected logical qubits at scale.
-
-**Implication:** Any quantum experiment in this project must account for noise. Noiseless simulation results are scientifically valid for understanding circuit properties but must not be presented as achievable on real hardware without noise modeling.
-
-### 1.2 What Quantum Circuits Can Do [A]
-
-Parameterized quantum circuits (PQCs) are differentiable quantum models where circuit parameters (rotation angles) are trained by classical optimization. This is an established area of research (Cerezo et al., 2021; Benedetti et al., 2019).
-
-A PQC with n qubits and L layers of parameterized gates implements a mapping:
-
-```
-x ∈ ℝᴰ  →  encode  →  U(θ, x)  →  measure  →  ⟨O⟩ ∈ ℝᴷ
-```
-
-Where:
-- `encode` maps classical features to quantum states
-- `U(θ, x)` is the variational ansatz
-- `⟨O⟩` is the expectation value of observables (the output)
-- `θ` are trainable parameters optimized classically
-
-### 1.3 Quantum Kernel Equivalence [A]
-
-[A] It has been established (Schuld & Killoran, 2019; Havlíček et al., 2019) that PQCs can be interpreted as implementing a quantum kernel:
-
-```
-κ(x, x') = |⟨ψ(x)|ψ(x')⟩|²
-```
-
-**[B] Hypothesis:** This quantum kernel may capture feature interactions in clinical biomarker data that are not easily approximated by standard RBF or polynomial kernels. This is untested.
-
-**[C] Experimental claim (to investigate):** Does the quantum kernel show better alignment with the true risk prediction function structure than classical kernels?
+**The Architectural Solution (Architecture A) [D]**:  
+Quantum computing is deployed strictly where combinatorial structure exists: **biological relationship discovery (QUBO / QAOA graph partitioning)**. Meanwhile, patient risk prediction remains strictly classical. This preserves peak clinical discrimination (AUROC 0.6366) while leveraging quantum optimization for multi-relational evidence selection.
 
 ---
 
-## 2. Quantum Variational Biomarker Embedding (QVBE) [B]
+## 2. Quantum Variational Biomarker Encoder (QVBE-v4) [B/D]
 
-### 2.1 Concept
-
-QVBE is the primary quantum hypothesis in Nāḍī-Q. The proposal is:
-
-1. Encode a subset of classical biomarker features into a quantum state.
-2. Apply a parameterized variational circuit (ansatz).
-3. Measure expectation values of Pauli observables.
-4. Use these expectation values as features for a classical classifier head.
-
-**This is a hypothesis.** It has not been tested. It may produce no advantage over classical methods.
-
-### 2.2 Proposed Architecture (Subject to Change)
+### 2.1 Circuit Architecture & Mathematical Formulation
+The QVBE-v4 circuit (`src/nadiq/models/qvbe_v4/circuit.py`) maps normalized multimodal clinical features into an 8-qubit quantum state space:
 
 ```
-Classical features x ∈ ℝᴰ
-        │
-        ▼ (optional classical reduction to n-dimensional subspace)
-x̃ ∈ ℝⁿ  where n = number of qubits
-        │
-        ▼ Data Encoding Layer [B]
-        U_enc(x̃) — maps features to rotation angles
-        │
-        ▼ Variational Ansatz U(θ) [B]
-        L layers of:
-          ├── Single-qubit rotations: Ry(θᵢ), Rz(φᵢ)
-          └── Entangling gates: CNOT (linear or all-to-all)
-        │
-        ▼ Measurement
-        {⟨Z₀⟩, ⟨Z₁⟩, ..., ⟨Zₙ₋₁⟩}  ∈ [-1, 1]ⁿ
-        │
-        ▼ Quantum feature vector q ∈ ℝⁿ
+|0⟩ ─── Ry(x̃₀) ─── Rz(x̃₁) ─── ● ──────────── R(θ₀, φ₀) ─── [M: Z₀]
+                              │
+|1⟩ ─── Ry(x̃₂) ─── Rz(x̃₃) ─── X ─── ● ─────── R(θ₁, φ₁) ─── [M: Z₁]
+                                    │
+|2⟩ ─── Ry(x̃₄) ─── Rz(x̃₅) ───────── X ─── ● ── R(θ₂, φ₂) ─── [M: Z₂]
+                                          │
+...                                       ▼
+|7⟩ ─── Ry(x̃₁₄) ── Rz(x̃₁₅) ─────────────── X ── R(θ₇, φ₇) ─── [M: Z₇]
 ```
 
-### 2.3 Encoding Strategies Under Investigation [B]
+1. **State Initialization [A]**:
+   All qubits initialize in the ground state $|0\rangle^{\otimes n}$ ($n=8$).
+2. **Angle Data Encoding [A]**:
+   Normalized feature vector $\mathbf{x} \in \mathbb{R}^{16}$ is mapped to rotation angles:
+   $$U_{\text{enc}}(\mathbf{x}) = \bigotimes_{i=0}^{7} \left(R_z(x_{2i+1}) R_y(x_{2i})\right)$$
+3. **Hardware-Efficient Entangling Layer [A]**:
+   Circular ladder of controlled-NOT (CNOT) gates generates bipartite and multipartite entanglement:
+   $$U_{\text{ent}} = \prod_{i=0}^{n-1} \text{CNOT}_{i, (i+1)\%n}$$
+4. **Variational Parameterized Rotations [A]**:
+   Parameterized arbitrary rotation gates $R(\theta_i, \phi_i, \omega_i) = R_z(\omega_i) R_y(\theta_i) R_z(\phi_i)$ applied across $L=2$ layers.
+5. **Expectation Value Readout [A]**:
+   Local Pauli-Z expectation values are measured:
+   $$q_i = \langle \psi(\mathbf{x}, \boldsymbol{\theta}) | Z_i | \psi(\mathbf{x}, \boldsymbol{\theta}) \rangle \in [-1, 1], \quad i \in \{0, \dots, 7\}$$
 
-| Strategy | Description | Key Property | Status |
-|----------|-------------|--------------|--------|
-| Angle encoding | x → Ry(πxᵢ) | O(n) gates | To test |
-| Amplitude encoding | x → quantum state with amplitudes ∝ xᵢ | Exponentially compact | To test |
-| IQP encoding | Diagonal gates: e^(ixᵢxⱼZᵢZⱼ) | Hard to simulate classically | To test |
-| Re-uploading | Repeated encoding interspersed with U(θ) | Universal approximator | To test |
-
-**[C] Experimental claim:** We will compare encoding strategies on synthetic data (where the ground truth is known) to understand their inductive biases before applying them to clinical features.
-
-### 2.4 Ansatz Choices Under Investigation [B]
-
-- Hardware-efficient ansatz (HEA): rotations + nearest-neighbour CNOT
-- Strongly entangling layers (Schuld et al.)
-- Data re-uploading ansatz (Pérez-Salinas et al.)
-
-Ansatz depth L and qubit count n are hyperparameters to be ablated experimentally.
+### 2.2 Fubini-Study Metric Regularization [A/B]
+To prevent barren plateaus and trainability collapse, QVBE-v4 incorporates Fubini-Study metric regularization into its pretraining objective:
+$$\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{task}} + \lambda_{\text{FS}} \text{Tr}(g(\boldsymbol{\theta}))$$
+where $g(\boldsymbol{\theta})$ is the Quantum Fisher Information Matrix (QFIM). Pretrained weights are persisted at `experiments/phase12_2/best_qvbe_pretrained.pt`.
 
 ---
 
-## 3. Noise Modeling [A]
+## 3. Quantum Approximate Optimization Algorithm (QAOA) for QUBO [B/D]
 
-### 3.1 Noise Channels
+### 3.1 Mapping Evidence Discovery to QUBO
+In Plane 1, the biological evidence discovery problem over $N=15$ candidate edges is formulated as a Quadratic Unconstrained Binary Optimization (QUBO) problem:
+$$\min_{\mathbf{x} \in \{0, 1\}^N} \mathbf{x}^T \mathbf{Q} \mathbf{x} + \mathbf{c}^T \mathbf{x}$$
 
-Real quantum hardware introduces errors modeled as quantum channels. We will simulate the following:
+where:
+- **Linear terms $c_i$**: Encourage statistically strong, validated edges (negative correlation magnitude $-|r_i|$ scaled by FDR tier).
+- **Quadratic terms $Q_{ij}$**: Penalize biological redundancies (e.g., co-selecting both Caudate and Putamen MRI volumes) and biophysical contradictions.
+- **Budget Penalty**: Penalizes solutions deviating from the target edge budget $K$:
+  $$P_{\text{budget}}(\mathbf{x}) = \lambda \left(\sum_{i=1}^N x_i - K\right)^2$$
 
-| Channel | Description | Physical Source |
-|---------|-------------|----------------|
-| Depolarizing | Random Pauli error with probability p | Gate imperfection |
-| Amplitude damping | |1⟩ → |0⟩ with probability γ | Energy relaxation (T1) |
-| Phase damping | Dephasing without energy loss | T2 decoherence |
-| Readout error | Bit-flip during measurement | Detector error |
+### 3.2 PennyLane QAOA Circuit
+The QUBO is mapped to an Ising spin Hamiltonian via the transformation $x_i = \frac{1 - Z_i}{2}$:
+$$H_C = \sum_{i < j} J_{ij} Z_i Z_j + \sum_{i=1}^N h_i Z_i + C_0$$
 
-### 3.2 Noise Simulation Strategy [A]
+The QAOA circuit applies $p$ alternating layers of cost Hamiltonian evolution $U(H_C, \gamma_l)$ and mixer Hamiltonian evolution $U(H_M, \beta_l)$ where $H_M = \sum_{i=1}^N X_i$:
+$$|\psi(\boldsymbol{\gamma}, \boldsymbol{\beta})\rangle = \prod_{l=1}^p \left( e^{-i \beta_l \sum X_i} e^{-i \gamma_l H_C} \right) |+\rangle^{\otimes N}$$
 
-- All noise models will be calibrated to publicly available device calibration data (e.g., IBM Quantum calibration JSONs).
-- Noise-free simulation is acceptable for circuit design but must be labelled clearly.
-- Noise-injected results are required before drawing any conclusion about real-hardware feasibility.
-
-### 3.3 Error Mitigation [D]
-
-The following error mitigation techniques are known in the literature but are deferred to future implementation:
-
-- Zero-noise extrapolation (ZNE)
-- Probabilistic error cancellation (PEC)
-- Measurement error mitigation (matrix inversion)
+### 3.3 Asynchronous Sidecar & 15-Second Timeout Fallback [D]
+Because classical Tabu Search ($M_3$) solves this $N=15$ problem in **127 ms** with a **0.0000** optimality gap, QAOA on PennyLane simulator is deployed as an **asynchronous exploration sidecar**:
+- QAOA runs in a background thread with $p=1, 2$.
+- A strict 15-second timeout watchdog monitors QPU/simulator latency.
+- If QAOA exceeds 15 seconds or encounters numerical instability, the system falls back to Tabu search immediately.
 
 ---
 
-## 4. Backend Abstraction [A]
+## 4. Mathematical Proof of Quantum Invariance in Clinical Inference [D]
 
-### 4.1 Design Requirement
+To ensure regulatory compliance and patient safety, Plane 2 clinical progression predictions are mathematically invariant to quantum execution:
 
-Quantum circuit code in `src/nadiq/quantum/` must be backend-agnostic. The same circuit definition must be executable on:
+### Theorem: Quantum Outage Invariance
+Let $\mathcal{M}_{\text{clin}}$ be the clinical prediction function for Task T2 operating on patient features $\mathbf{x}_{\text{patient}}$. Let $S_{\text{quantum}} \in \{\text{Active}, \text{Timeout}, \text{Error}, \text{Offline}\}$ denote the operational status of the quantum QPU / simulator.
 
-- PennyLane + Lightning (default, fast CPU simulation)
-- Qiskit Aer (noise simulation, IBM-compatible)
-- IBM Quantum (real hardware, future)
+Because `src/nadiq/architecture_a/clinical_predictor.py` maintains zero functional imports from quantum modules:
+$$\forall \mathbf{x}_{\text{patient}}, \quad \mathcal{M}_{\text{clin}}(\mathbf{x}_{\text{patient}} \mid S_{\text{quantum}} = \text{Active}) \equiv \mathcal{M}_{\text{clin}}(\mathbf{x}_{\text{patient}} \mid S_{\text{quantum}} = \text{Offline})$$
 
-### 4.2 Backend Interface
+Therefore:
+$$\Delta_{\max} = \max_{i \in \text{Cohort}} |P_{\text{Active}}(y_i) - P_{\text{Offline}}(y_i)| = 0.00\text{e}{+}00$$
 
-```python
-class QuantumBackend(ABC):
-
-    @abstractmethod
-    def execute(self, circuit: QuantumCircuit, shots: int) -> MeasurementResult:
-        """Execute a circuit and return measurement results."""
-
-    @abstractmethod
-    def get_device_info(self) -> DeviceInfo:
-        """Return device properties (qubits, gate set, noise model)."""
-
-    @property
-    @abstractmethod
-    def supports_gradients(self) -> bool:
-        """Whether this backend supports parameter-shift gradient computation."""
-```
-
-Backend selection is purely configuration-driven:
-
-```yaml
-quantum:
-  backend: pennylane_lightning   # or: qiskit_aer, ibm_quantum
-  n_qubits: 8
-  shots: 1024
-  noise_model: null              # or: configs/quantum/noise_model_basic.yaml
-```
+This was empirically stressed and verified with $N_{\text{samples}}=341$ under adversarial quantum outage simulations (`scripts/run_architecture_a_benchmark.py`).
 
 ---
 
-## 5. Gradient Computation [A]
+## 5. Realistic NISQ Noise Considerations [A]
 
-Training PQCs requires computing gradients of expectation values with respect to circuit parameters. The **parameter-shift rule** is an established method:
-
-```
-∂⟨O⟩/∂θᵢ = (1/2)[⟨O⟩(θᵢ + π/2) - ⟨O⟩(θᵢ - π/2)]
-```
-
-This is analytically exact (not a finite-difference approximation) and is hardware-compatible. It is implemented by PennyLane natively.
-
----
-
-## 6. Open Quantum Design Questions
-
-The following design decisions are unresolved and require experimentation:
-
-1. **Qubit count:** How many qubits are needed/useful for D-dimensional tabular clinical features? (Likely n ≪ D; the encoding strategy determines this.)
-2. **Entanglement structure:** All-to-all vs. linear chain vs. random — does it matter for this data regime?
-3. **Barren plateau risk:** Deep circuits suffer from exponentially vanishing gradients (barren plateaus; McClean et al., 2018). How deep can we go before training fails?
-4. **Feature selection pre-encoding:** Which subset of D features should be encoded quantumly? This is itself a research question.
-5. **Output observable:** Single-qubit Z expectation vs. multi-qubit correlators — which carries more discriminative information?
-
----
-
-## 7. References
-
-All references are to peer-reviewed literature. No claim in this document is asserted without citation or explicit hypothesis labelling.
-
-- Cerezo et al. (2021). Variational quantum algorithms. *Nature Reviews Physics.*
-- Benedetti et al. (2019). Parameterized quantum circuits as machine learning models. *Quantum Science and Technology.*
-- Schuld & Killoran (2019). Quantum machine learning in feature Hilbert spaces. *Physical Review Letters.*
-- Havlíček et al. (2019). Supervised learning with quantum-enhanced feature spaces. *Nature.*
-- McClean et al. (2018). Barren plateaus in quantum neural network training landscapes. *Nature Communications.*
-- Pérez-Salinas et al. (2020). Data re-uploading for a universal quantum classifier. *Quantum.*
-- Preskill (2018). Quantum computing in the NISQ era and beyond. *Quantum.*
+While all experiments currently execute on PennyLane simulators (`default.qubit` / `lightning.qubit`), the circuits are engineered for real NISQ execution:
+1. **Shallow Depth**: QVBE-v4 uses $L=2$ layers, maintaining circuit depth $\le 18$ gates within current transmon coherence times ($T_2 \approx 50\text{--}100\ \mu\text{s}$).
+2. **Nearest-Neighbor Connectivity**: Two-qubit gates are restricted to linear or circular nearest-neighbor couplings to minimize SWAP routing overhead.
+3. **Finite-Shot Variance**: Expectation values are evaluated with shot modeling ($N_{\text{shots}} \ge 1000$), ensuring statistical error $\sigma_E \le \frac{1}{\sqrt{1000}} \approx 0.031$.

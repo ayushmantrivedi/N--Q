@@ -1,49 +1,60 @@
-# Temporal Prediction in Nāḍī-Q
+# Longitudinal Temporal Prediction & Leakage Firewalls — NĀḌĪ-Q
 
-The Nāḍī-Q framework is designed to evaluate longitudinal disease progression models with mathematical rigor to ensure **zero temporal data leakage**.
+> Strict mathematical specification of temporal sequence modeling, clinical horizon semantics, and prospective left-truncation firewalls in NĀḌĪ-Q.
 
-## The Mathematical Objective
+---
 
-We formalize longitudinal prediction as predicting future outcomes based on strictly left-truncated histories:
+## 1. Formal Mathematical Formulation
 
-$$X_{\leq T} \rightarrow Y_{T+H}$$
+In longitudinal neurodegenerative research, retrospective prediction models often suffer from catastrophic temporal leakage (e.g. including post-baseline measurements when predicting baseline progression). NĀḌĪ-Q formalizes progression forecasting as a strictly left-truncated prospective mapping:
 
-Where:
-- $T$ is the snapshot time (e.g., the date of a patient's baseline MCI visit).
-- $X_{\leq T}$ is the set of all available data (measurements, demographics) collected strictly on or before $T$.
-- $H$ is the prediction horizon (e.g., 24 months).
-- $Y_{T+H}$ is the clinical outcome evaluated according to strict horizon semantics.
+$$f: X_{\le T} \longrightarrow Y_{T \rightarrow T+H}$$
 
-## Horizon Semantics
+where:
+- **Snapshot Time ($T$)**: The cutoff horizon (e.g. Month 12 visit).
+- **Available History ($X_{\le T}$)**: The set of all multimodal measurements (molecular, imaging, motor) collected strictly on or before $T$.
+- **Prediction Horizon ($H$)**: The prospective forecast interval (e.g. 48 months, extending to Month 60).
+- **Clinical Outcome ($Y_{T \rightarrow T+H}$)**: The prospective disease progression state.
 
-A horizon defines not just *when* to look for an outcome, but *how* to handle the interval. We implement three strict definitions:
+---
 
-### 1. EXACT
-The outcome must be observed exactly at $T + H$ (within a configurable `window_days` margin).
-- Example use case: Scheduled clinical trial visits where you want to predict the state at the exact 24-month check-in.
-- **Censoring**: If a patient misses the $T+H$ visit, their outcome is `CENSORED`, even if they were observed at $T+12$ and $T+36$.
+## 2. Clinical Progression Tasks in PPMI
 
-### 2. WITHIN
-The outcome occurs at any point in the interval $(T, T+H]$.
-- Example use case: Predicting whether an event (like MCI to AD conversion) will happen at any point in the next 24 months.
-- **Positives**: The event is observed $\leq T+H$.
-- **Negatives**: The event is *not* observed, AND we have explicit follow-up $\geq T+H$ confirming the patient did not convert.
-- **Censoring**: The patient drops out of the study at $T+12$ without converting. We cannot safely call this a negative for a 24-month horizon. Their outcome is `CENSORED`.
+### Task T2: Future-Only Motor Progression (Primary Endpoint)
+Task T2 evaluates the ability of early longitudinal trajectories (Month 0 to Month 12) to forecast long-term motor decline at Month 60:
+$$\Delta \text{UPDRS-III}_{12 \rightarrow 60} = \text{Score}_{60} - \text{Score}_{12}$$
 
-### 3. AT_LEAST
-The event happens at some point $> T$. We use $H$ solely to establish confidence in negative cases.
-- **Positives**: Event observed at any point $> T$.
-- **Negatives**: No event observed, and we have follow up of at least $H$.
-- **Censoring**: No event observed, and follow up is $< H$.
+A patient is classified as a **Progressor ($Y=1$)** if their score increase meets or exceeds the Minimal Clinically Important Difference (MCID):
+$$Y = \mathbb{I}\left(\Delta \text{UPDRS-III}_{12 \rightarrow 60} \ge 5.0\right)$$
 
-## Leakage Prevention
+- **Cohort Size**: $N = 341$ participants.
+- **Event Balance**: 159 progressors (46.6%) vs 182 non-progressors (53.4%).
+- **Clinical Relevance**: Identifies fast-progressing patients within the first year of diagnosis, enabling timely enrollment in neuroprotective therapeutic trials.
 
-The `TemporalLeakageChecker` acts as a rigid firewall enforcing the following guarantees:
-- **Feature Time Travel**: No feature in $X$ can have a timestamp $> T$.
-- **Label Time Travel**: If a patient converted to the target diagnosis $\leq T$, they are excluded from the snapshot since the event has already occurred.
-- **Partition Contamination**: The train, validation, and test sets are strictly disjoint at the patient level. A patient cannot contribute a snapshot to the training set and a later snapshot to the test set.
+---
 
-## Limitations and Assumptions
+## 3. The Three-Layer Leakage Firewall
 
-- **LATEST Feature Policy**: Currently, `ClinicalSample` feature blocks are constructed using a flattened vector of the most recent measurement $\leq T$. True sequence modeling using full `TIME_SERIES` policies is an active research goal.
-- **Date Granularity**: All timeline arithmetic is calculated using discrete days, approximating months as $30.4375$ days.
+The `DataProtocol14A` and `TemporalLeakageChecker` enforce three inviolable guarantees:
+
+### 3.1 Feature Left-Truncation Firewall
+No feature vector $x_i \in X$ may contain measurements, derived statistics, or imputation values from timepoints $t > T$ (Month 12). Any observation from Month 24, Month 36, or Month 60 is strictly excluded prior to feature construction.
+
+### 3.2 Participant-Disjoint Stratified Partitioning
+Patients are partitioned into 5 folds at the participant identifier level (`PATNO`):
+$$\text{Train}_{\text{fold}} \cap \text{Test}_{\text{fold}} = \emptyset$$
+A participant can never contribute longitudinal data to both the training and test sets.
+
+### 3.3 Leakage-Free Preprocessing Parameters
+All Z-score normalization parameters ($\mu, \sigma$) and median imputation vectors are computed **strictly on the training partition** of each fold, then applied out-of-fold to test samples:
+$$z_{\text{test}} = \frac{x_{\text{test}} - \mu_{\text{train}}}{\sigma_{\text{train}}}$$
+
+---
+
+## 4. Continual Temporal-Clinical Learning Module (CTCLM)
+
+To model continuous, irregularly sampled clinical visits without crude binning, the CTCLM network (`src/nadiq/models/quantum/ctclm.py`) incorporates:
+1. **Time-Delta Embedding**: Ingests irregular observation deltas $\Delta t = t_k - t_{k-1}$ as continuous inputs.
+2. **Hidden State Dynamics**: Evolves patient latent states between clinical check-ins:
+   $$\mathbf{h}_k = \text{LSTM}\left([\mathbf{m}_k; \Delta t_k], \mathbf{h}_{k-1}\right)$$
+3. **Trajectory Representation**: Extracts both static baseline severity and dynamic 1-year acceleration ($\Delta \text{rate}$).
